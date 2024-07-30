@@ -1,15 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace HealthMed.Api.Controller
+namespace HealthMed.Api.Controller;
+
+[ApiController]
+[Route("[controller]")]
+[Produces("application/json")]
+public class AppointmentController : BaseController
 {
-    [ApiController]
-    [Route("[controller]")]
-    [Produces("application/json")]
-    public class AppointmentController : BaseController
-    {
-        public IActionResult Index()
-        {
-            return Ok();
-        }
-    }
 }

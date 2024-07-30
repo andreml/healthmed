@@ -1,0 +1,15 @@
+version: "3.7"
+
+networks:
+  healthmed-network:
+
+services:
+  healthmed-sqlserver:
+    image: "mcr.microsoft.com/mssql/server:2019-latest"
+    ports:
+      - "1433:1433"
+    environment:
+        SA_PASSWORD: "healthmed@2024"
+        ACCEPT_EULA: "Y"
+    networks:
+      - healthmed-network

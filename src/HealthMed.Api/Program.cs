@@ -1,5 +1,6 @@
 using FluentValidation.AspNetCore;
-using HealthMed.CrossCutting.InjecaoDependencia;
+using HealthMed.CrossCutting.DI;
+using HealthMed.CrossCutting.Middlewares;
 using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,6 +9,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddRepository();
 builder.Services.AddServices();
+builder.Services.AddValidators();
 builder.Services.AddSwaggerConfiguration();
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddContextConfig(builder.Configuration);
@@ -22,20 +24,22 @@ builder.Services.Configure<ApiBehaviorOptions>(options => { options.SuppressMode
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("cors",
-                          policy =>
-                          {
-                              policy.AllowAnyHeader().AllowCredentials().AllowAnyOrigin().AllowAnyMethod().SetIsOriginAllowed((host) => true);
-                          });
+    options.AddPolicy("cors", policy => { policy.
+                                            AllowAnyHeader().
+                                            AllowCredentials().
+                                            AllowAnyOrigin().
+                                            AllowAnyMethod().
+                                            SetIsOriginAllowed((host) => true);});
 });
 
 var app = builder.Build();
 
+app.UseMiddleware<ExceptionMiddleware>();
 
 app.UseSwagger();
 app.UseSwaggerUI(options =>
 {
-    options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1.0.0.0");
+    options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1.0");
     options.RoutePrefix = "swagger";
 });
 
@@ -47,6 +51,3 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
-
-//Para teste integrado
-public partial class Program { }
