@@ -57,7 +57,7 @@ namespace HealthMed.Application.Services
                 var login = new LoginViewModel(
                                             doctor.Name,
                                             doctor.Email,
-                                            Profile.Patient,
+                                            Profile.Doctor,
                                             JwtUtils.GenerateToken(doctor.Id, Profile.Patient, DateTime.Now.AddDays(7), _config));
 
                 response.AddData(login, HttpStatusCode.OK);
