@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace HealthMed.Domain.Repository;
 
-namespace HealthMed.Domain.Repository
+public interface IDoctorRepository
 {
-    public interface IDoctorRepository
-    {
-    }
 }
