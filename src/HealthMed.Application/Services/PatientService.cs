@@ -12,10 +12,10 @@ namespace HealthMed.Application.Services;
 
 public class PatientService : IPatientService
 {
-    private readonly IPatientrepository _repository;
+    private readonly IPatientRepository _repository;
     private readonly IConfiguration _config;
 
-    public PatientService(IPatientrepository repository, IConfiguration config)
+    public PatientService(IPatientRepository repository, IConfiguration config)
     {
         _repository = repository;
         _config = config;

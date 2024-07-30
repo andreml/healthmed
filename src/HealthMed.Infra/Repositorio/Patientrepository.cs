@@ -6,12 +6,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HealthMed.Infra.Repositorio;
 
-public class Patientrepository : IPatientrepository
+public class PatientRepository : IPatientRepository
 {
     protected ApplicationDbContext _context;
     protected DbSet<Patient> _dbSet;
 
-    public Patientrepository(ApplicationDbContext context)
+    public PatientRepository(ApplicationDbContext context)
     {
         _context = context;
         _dbSet = _context.Set<Patient>();

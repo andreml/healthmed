@@ -11,13 +11,13 @@ public class AppointmentService : IAppointmentService
     private readonly IDoctorRepository _doctorRepository;
     private readonly IScheduleRepository _scheduleRepository;
     private readonly IAppointmentRepository _appointmentRepository;
-    private readonly IPatientrepository _patientRepository;
+    private readonly IPatientRepository _patientRepository;
 
     public AppointmentService(
                 IDoctorRepository doctorRepository, 
                 IScheduleRepository scheduleRepository, 
                 IAppointmentRepository appointmentRepository, 
-                IPatientrepository patientRepository)
+                IPatientRepository patientRepository)
     {
         _doctorRepository = doctorRepository;
         _scheduleRepository = scheduleRepository;
