@@ -25,9 +25,9 @@ namespace HealthMed.Application.Services
         {
             var response = new ResponseBase();
 
-            var existingPatient = await _repository.GetByEmailOrCpfAsync(dto.Email, dto.Cpf);
+            var existingDoctor = await _repository.GetByEmailOrCpfAsync(dto.Email, dto.Cpf);
 
-            if (existingPatient is not null)
+            if (existingDoctor is not null)
             {
                 response.AddError("Já existe um cadastro de médico com este email ou cpf");
                 return response;
@@ -46,19 +46,19 @@ namespace HealthMed.Application.Services
         {
             var response = new ResponseBase();
 
-            var patient = await _repository.GetByEmailAndPasswordAsync(dto.Email, dto.Password);
+            var doctor = await _repository.GetByEmailAndPasswordAsync(dto.Email, dto.Password);
 
-            if (patient is null)
+            if (doctor is null)
             {
                 response.AddError("Não foi possível gerar token para acesso do usuário");
             }
             else
             {
                 var login = new LoginViewModel(
-                                            patient.Name,
-                                            patient.Email,
+                                            doctor.Name,
+                                            doctor.Email,
                                             Profile.Patient,
-                                            JwtUtils.GenerateToken(patient.Id, Profile.Patient, DateTime.Now.AddDays(7), _config));
+                                            JwtUtils.GenerateToken(doctor.Id, Profile.Patient, DateTime.Now.AddDays(7), _config));
 
                 response.AddData(login, HttpStatusCode.OK);
             }
