@@ -16,7 +16,7 @@ public class AppointmentServiceTests
     private readonly Mock<IDoctorRepository> _doctorRepositoryMock;
     private readonly Mock<IScheduleRepository> _scheduleRepositoryMock;
     private readonly Mock<IAppointmentRepository> _appointmentRepositoryMock;
-    private readonly Mock<IPatientrepository> _patientRepositoryMock;
+    private readonly Mock<IPatientRepository> _patientRepositoryMock;
 
     private readonly AppointmentService _service;
 
@@ -27,7 +27,7 @@ public class AppointmentServiceTests
         _doctorRepositoryMock = new Mock<IDoctorRepository>();
         _scheduleRepositoryMock = new Mock<IScheduleRepository>();
         _appointmentRepositoryMock = new Mock<IAppointmentRepository>();
-        _patientRepositoryMock = new Mock<IPatientrepository>();
+        _patientRepositoryMock = new Mock<IPatientRepository>();
 
         _service = new AppointmentService(
                                 _doctorRepositoryMock.Object,
