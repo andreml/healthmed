@@ -1,6 +1,8 @@
 ﻿using HealthMed.Application.Dtos;
 using HealthMed.Application.Services.Interfaces;
 using HealthMed.Application.ViewModels;
+using HealthMed.Domain.Enum;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HealthMed.Api.Controller;
@@ -47,6 +49,7 @@ public class DoctorController : BaseController
     /// Consulta uma lista de médicos
     /// </summary>
     [HttpGet()]
+    [Authorize(Roles = $"{Perfis.Patient}")]
     [ProducesResponseType(typeof(LoginViewModel), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(IEnumerable<string>), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> Get()
