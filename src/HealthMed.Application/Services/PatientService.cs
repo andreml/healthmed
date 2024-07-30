@@ -10,12 +10,12 @@ using System.Net;
 
 namespace HealthMed.Application.Services;
 
-public class PacienteService : IPatientService
+public class PatientService : IPatientService
 {
     private readonly IPatientrepository _repository;
     private readonly IConfiguration _config;
 
-    public PacienteService(IPatientrepository repository, IConfiguration config)
+    public PatientService(IPatientrepository repository, IConfiguration config)
     {
         _repository = repository;
         _config = config;

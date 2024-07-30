@@ -8,7 +8,7 @@ public static class ServicesServiceCollectionExtension
 {
     public static IServiceCollection AddServices(this IServiceCollection service)
     {
-        service.AddScoped<IPatientService, PacienteService>();
+        service.AddScoped<IPatientService, PatientService>();
         service.AddScoped<IAppointmentService, AppointmentService>();
         service.AddScoped<IDoctorService, DoctorService>();
         service.AddScoped<IScheduleService, ScheduleService>();

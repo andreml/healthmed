@@ -27,7 +27,7 @@ public class AppointmentMapping : IEntityTypeConfiguration<Appointment>
             .IsRequired();
 
         builder
-            .HasOne<Doctor>()
+            .HasOne(a => a.Doctor)
             .WithMany()
             .HasForeignKey(a => a.DoctorId);
     }
