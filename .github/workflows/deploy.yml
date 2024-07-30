@@ -23,8 +23,11 @@ jobs:
           dotnet build
           dotnet publish src/HealthMed.Api/HealthMed.Api.csproj -c Release -o ${{env.DOTNET_ROOT}}/myapp
 
+      - name: Iniciando container SQL Server para testes integrados
+        run: docker-compose -f "docker-compose.yml" up -d --build
+        
       - name: Upload artifact for deployment job
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v3
         with:
           name: .net-app
           path: ${{env.DOTNET_ROOT}}/myapp
@@ -37,16 +40,23 @@ jobs:
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
     
     steps:
-      - name: Download artifact from build job
-        uses: actions/download-artifact@v4
+      - name: Download do artefato para o build job
+        uses: actions/download-artifact@v3
         with:
           name: .net-app
-      
+
+      - name: App Settings Variable Substitution
+        uses: microsoft/variable-substitution@v1
+        with:
+          files: 'appsettings.json'
+        env:
+          ConnectionStrings.DataBase: ${{ secrets.CONNECTIONSTRING }}
+  
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
-        uses: azure/webapps-deploy@v3
+        uses: azure/webapps-deploy@v2
         with:
           app-name: 'healthmedfiap'
           slot-name: 'production'
+          publish-profile: ${{ secrets.AzureAppService_PublishProfile_52f617011a8a4e288cde69f59cfff749 }}
           package: .
-          publish-profile: ${{ secrets.AzureAppService_PublishProfile_ee0c4297d8654cba9c483cf08e0e10be }}
