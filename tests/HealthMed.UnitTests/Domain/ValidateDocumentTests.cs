@@ -6,8 +6,8 @@ namespace HealthMed.UnitTests.Domain;
 public class ValidateDocumentTests
 {
     [Theory]
-    [MemberData(nameof(ObterCpfs))]
-    public void ValidateDocument_ValidarCpf(string cpf, bool valido)
+    [MemberData(nameof(GetCpfs))]
+    public void ValidateDocument_IsCpf(string cpf, bool valido)
     {
         // Act
         var cpfValido = ValidateDocument.IsCpf(cpf);
@@ -16,7 +16,7 @@ public class ValidateDocumentTests
         Assert.Equal(valido, cpfValido);
     }
 
-    public static IEnumerable<object[]> ObterCpfs()
+    public static IEnumerable<object[]> GetCpfs()
     {
         yield return new object[] { "94235560271", true };
         yield return new object[] { "68325434848", true };

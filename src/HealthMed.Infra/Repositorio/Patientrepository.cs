@@ -28,4 +28,7 @@ public class Patientrepository : IPatientrepository
 
     public async Task<Patient?> GetByEmailOrCpfAsync(string email, string cpf) =>
         await _dbSet.FirstOrDefaultAsync(x => x.Email == email || x.Cpf == cpf);
+
+    public async Task<Patient?> GetByIdAsync(Guid id) =>
+        await _dbSet.FirstOrDefaultAsync(x => x.Id == id);
 }
