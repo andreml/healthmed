@@ -34,20 +34,26 @@ namespace HealthMed.Infra.Migrations
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("PatientId")
+                    b.Property<Guid?>("PatientId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ScheduleId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<byte[]>("Version")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
 
                     b.HasKey("Id");
 
                     b.HasIndex("DoctorId");
 
                     b.HasIndex("PatientId");
-
-                    b.HasIndex("StartDate", "EndDate", "DoctorId")
-                        .IsUnique();
 
                     b.ToTable("Appointment");
                 });
@@ -110,28 +116,6 @@ namespace HealthMed.Infra.Migrations
                     b.ToTable("Patient");
                 });
 
-            modelBuilder.Entity("HealthMed.Domain.Entities.Schedule", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("DoctorId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("EndAvailabilityDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("StartAvailabilityDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DoctorId");
-
-                    b.ToTable("Schedule");
-                });
-
             modelBuilder.Entity("HealthMed.Domain.Entities.Appointment", b =>
                 {
                     b.HasOne("HealthMed.Domain.Entities.Doctor", "Doctor")
@@ -141,28 +125,13 @@ namespace HealthMed.Infra.Migrations
                         .IsRequired();
 
                     b.HasOne("HealthMed.Domain.Entities.Patient", "Patient")
-                        .WithMany("Appointments")
+                        .WithMany()
                         .HasForeignKey("PatientId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.Navigation("Doctor");
 
                     b.Navigation("Patient");
-                });
-
-            modelBuilder.Entity("HealthMed.Domain.Entities.Schedule", b =>
-                {
-                    b.HasOne("HealthMed.Domain.Entities.Doctor", null)
-                        .WithMany()
-                        .HasForeignKey("DoctorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("HealthMed.Domain.Entities.Patient", b =>
-                {
-                    b.Navigation("Appointments");
                 });
 #pragma warning restore 612, 618
         }

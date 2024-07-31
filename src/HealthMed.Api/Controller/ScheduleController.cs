@@ -1,8 +1,10 @@
 ﻿using HealthMed.Application.Dtos;
 using HealthMed.Application.Services.Interfaces;
+using HealthMed.Application.ViewModels;
 using HealthMed.Domain.Enum;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace HealthMed.Api.Controller;
 
@@ -63,6 +65,34 @@ public class ScheduleController : BaseController
     public async Task<IActionResult> DeleteScheduleAsync(Guid id)
     {
         var result = await _scheduleService.DeleteScheduleAsync(GetLoggedUserId(), id);
+
+        return Response(result!);
+    }
+
+    /// <summary>
+    /// Obtém agendas livres de um Médico (Paciente)
+    /// </summary>
+    [HttpGet("Doctor/{id}/Available")]
+    [Authorize(Roles = $"{Perfis.Patient}")]
+    [ProducesResponseType( typeof(AvailableSchedulesViewModel), StatusCodes.Status200OK)]
+    [ProducesResponseType( StatusCodes.Status204NoContent)]
+    public async Task<IActionResult> GetAvailableSchedulesAsync([FromRoute]Guid id, [FromQuery][Required] DateTime startDate, [FromQuery][Required] DateTime endDate)
+    {
+        var result = await _scheduleService.GetAvailableSchedulesAsync(id, startDate, endDate);
+
+        return Response(result!);
+    }
+
+    /// <summary>
+    /// Obtém detalhes de agendas de um Médico (Médico)
+    /// </summary>
+    [HttpGet("Doctor/{id}")]
+    [Authorize(Roles = $"{Perfis.Doctor}")]
+    [ProducesResponseType(typeof(ICollection<ScheduleViewModel>), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    public async Task<IActionResult> GetSchedulesAsync([FromQuery][Required] DateTime startDate, [FromQuery][Required] DateTime endDate)
+    {
+        var result = await _scheduleService.GetSchedulesAsync(GetLoggedUserId(), startDate, endDate);
 
         return Response(result!);
     }

@@ -11,14 +11,6 @@ public class AppointmentMapping : IEntityTypeConfiguration<Appointment>
         builder.HasKey(x => x.Id);
 
         builder
-            .HasIndex(x => new { x.StartDate, x.EndDate, x.DoctorId })
-            .IsUnique();
-
-        builder
-            .Property(x => x.DoctorId)
-            .IsRequired();
-
-        builder
             .Property(x => x.StartDate)
             .IsRequired();
 
@@ -28,7 +20,20 @@ public class AppointmentMapping : IEntityTypeConfiguration<Appointment>
 
         builder
             .HasOne(a => a.Doctor)
+            .WithMany();
+
+        builder
+            .HasOne(e => e.Doctor)
             .WithMany()
-            .HasForeignKey(a => a.DoctorId);
+            .HasForeignKey("DoctorId") 
+            .OnDelete(DeleteBehavior.Cascade);
+
+        builder
+            .HasOne(e => e.Patient)
+            .WithMany()
+            .HasForeignKey("PatientId")
+            .OnDelete(DeleteBehavior.SetNull);
+
+        builder.Property(x => x.Version).IsRowVersion();
     }
 }

@@ -18,8 +18,7 @@ public class AppointmentFixture
         {
             DoctorId = _faker.Random.Guid(),
             PatientId = _faker.Random.Guid(),
-            StartDate = _faker.Date.Recent(1000),
-            EndDate = _faker.Date.Recent(1000)
+            ScheduleId = _faker.Random.Guid()
         };
 }
 

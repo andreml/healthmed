@@ -11,7 +11,6 @@ public static class RepositoryServiceCollectionExtension
         service.AddScoped<IPatientRepository, PatientRepository>();
         service.AddScoped<IDoctorRepository, DoctorRepository>();
         service.AddScoped<IAppointmentRepository, AppointmentRepository>();
-        service.AddScoped<IScheduleRepository, ScheduleRepository>();
 
         return service;
     }

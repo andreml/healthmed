@@ -4,10 +4,12 @@ namespace HealthMed.Domain.Repository;
 
 public interface IAppointmentRepository
 {
-    Task<Appointment?> GetByDoctorIdAndStartAndEnd(Guid doctorId, DateTime startDate, DateTime endDate);
-    Task<ICollection<Appointment>> GetByPatientIdAndInterval(Guid patientId, DateTime startDate, DateTime endDate);
-    Task<ICollection<Appointment>> GetByDoctorIdAndInterval(Guid doctorId, DateTime startDate, DateTime endDate);
-    Task AddAsync(Appointment appointment);
-    Task RemoveAsync(Appointment appointment);
-    Task<Appointment?> GetByIdAndPatientId(Guid id, Guid patientId);
+    Task AddAsync(Appointment schedule);
+    Task<ICollection<Appointment>> GetAppointmentsByDoctorIdAndIntervalAsync(Guid doctorId, DateTime startDateInterval, DateTime endDateInterval);
+    Task<ICollection<Appointment>> GetAppointmentsOfDayByDoctorIdAsync(Guid doctorId, DateTime date);
+    Task<ICollection<Appointment>> GetAppointmentsByIdAndDoctorIdAsync(Guid doctorId, Guid scheduleId);
+    Task<Appointment?> GetAppointmentByIdAndDoctorId(Guid id, Guid doctorID);
+    Task<ICollection<Appointment>> GetAppointmentsByPatientIdAndInterval(Guid patientId, DateTime startDate, DateTime endDate);
+    Task UpdateAsync(Appointment schedule);
+    Task RemoveAsync(Appointment schedule);
 }

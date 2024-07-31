@@ -24,8 +24,8 @@ public class DoctorRepository : IDoctorRepository
         await _context.SaveChangesAsync();
     }
 
-    public async Task<IEnumerable<Doctor?>> GetAll() =>
-    await _dbSet.ToListAsync();
+    public async Task<ICollection<Doctor>> GetAll() =>
+        await _dbSet.ToListAsync();
 
     public async Task<Doctor?> GetByEmailAndPasswordAsync(string email, string password) =>
         await _dbSet.FirstOrDefaultAsync(x => x.Email == email && x.Password == Encryptor.Encrypt(password));
