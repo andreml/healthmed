@@ -16,7 +16,6 @@ public class AppointmentFixture
     public AddAppointmentDto GenerateAddAppointmentDto() =>
         new()
         {
-            DoctorId = _faker.Random.Guid(),
             PatientId = _faker.Random.Guid(),
             ScheduleId = _faker.Random.Guid()
         };
