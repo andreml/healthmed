@@ -50,8 +50,8 @@ public class DoctorController : BaseController
     /// </summary>
     [HttpGet()]
     [Authorize(Roles = $"{Perfis.Patient}")]
-    [ProducesResponseType(typeof(LoginViewModel), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(IEnumerable<string>), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(List<DoctorViewModel>), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<IActionResult> Get()
     {
         var result = await _doctorService.GetDoctors();

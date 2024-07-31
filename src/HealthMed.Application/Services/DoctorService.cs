@@ -33,7 +33,7 @@ namespace HealthMed.Application.Services
                 return response;
             }
 
-            var doctor = new Doctor(dto.Name, dto.Cpf, dto.CRM, dto.Email, dto.Password);
+            var doctor = new Domain.Entities.Doctor(dto.Name, dto.Cpf, dto.CRM, dto.Email, dto.Password);
 
             await _repository.AddAsync(doctor);
 
@@ -57,7 +57,7 @@ namespace HealthMed.Application.Services
                 var login = new LoginViewModel(
                                             doctor.Name,
                                             doctor.Email,
-                                            Profile.Patient,
+                                            Profile.Doctor,
                                             JwtUtils.GenerateToken(doctor.Id, Profile.Patient, DateTime.Now.AddDays(7), _config));
 
                 response.AddData(login, HttpStatusCode.OK);
@@ -78,7 +78,16 @@ namespace HealthMed.Application.Services
             }
             else
             {
-                response.AddData(doctors, HttpStatusCode.OK);
+                var doc = new DoctorViewModel
+                {
+                    Doctors = doctors.Select(x => new ViewModels.Doctor
+                    {
+                        Crm = x.Crm,
+                        Email = x.Email,
+                        Name = x.Name
+                    }).ToList()
+                };
+                response.AddData(doc, HttpStatusCode.OK);
             }
 
             return response;
