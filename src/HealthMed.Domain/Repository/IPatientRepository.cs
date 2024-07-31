@@ -2,7 +2,7 @@
 
 namespace HealthMed.Domain.Repository;
 
-public interface IPatientrepository
+public interface IPatientRepository
 {
     Task AddAsync(Patient patient);
     Task<Patient?> GetByEmailAndPasswordAsync(string email, string password);
