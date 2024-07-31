@@ -1,5 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.SwaggerGen;
+using System.Globalization;
 
 namespace HealthMed.CrossCutting.DI;
 
@@ -18,6 +21,9 @@ public static class SwaggerExtensionCollection
                 Title = "HealthMed API",
                 Description = "APIs for HealthMed"
             });
+
+            c.SchemaFilter<CustomDateSchemaFilter>();
+
 
             c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
             {
@@ -39,5 +45,24 @@ public static class SwaggerExtensionCollection
         });
 
         return services;
+    }
+}
+
+class CustomDateSchemaFilter : ISchemaFilter
+{
+    public void Apply(OpenApiSchema schema, SchemaFilterContext context)
+    {
+        if (schema.Type == "string" && schema.Format == "date-time")
+        {
+            schema.Example = new OpenApiString(DateTime.Now.ToString("yyyy-MM-ddTHH:mm", CultureInfo.InvariantCulture));
+        }
+
+        if (schema.Properties != null)
+        {
+            foreach (var property in schema.Properties.Values)
+            {
+                Apply(property, context);
+            }
+        }
     }
 }

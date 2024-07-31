@@ -3,6 +3,7 @@ using HealthMed.Application.Services.Interfaces;
 using HealthMed.Application.ViewModels;
 using HealthMed.Domain.Entities;
 using HealthMed.Domain.Repository;
+using HealthMed.Domain.Utils;
 
 namespace HealthMed.Application.Services;
 
@@ -28,6 +29,8 @@ public class AppointmentService : IAppointmentService
     public async Task<ResponseBase> AddAppointmentAsync(AddAppointmentDto dto)
     {
         var response = new ResponseBase();
+
+        dto.RemoveSeconds();
 
         var patient = await _patientRepository.GetByIdAsync(dto.PatientId);
         if (patient is null)

@@ -30,7 +30,7 @@ public class AppointmentRepository : IAppointmentRepository
     public async Task<ICollection<Appointment>> GetByDoctorIdAndInterval(Guid doctorId, DateTime startDate, DateTime endDate) =>
         await _dbSet
                 .Include(x => x.Patient)
-                .Where(x => x.Doctor.Id == doctorId && x.StartDate >= startDate && x.StartDate <= endDate)
+                .Where(x => x.DoctorId == doctorId && x.StartDate >= startDate && x.StartDate <= endDate)
                 .ToListAsync();
 
     public async Task AddAsync(Appointment appointment)
