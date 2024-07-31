@@ -49,7 +49,7 @@ jobs:
         with:
           files: 'appsettings.json'
         env:
-          ConnectionStrings.DataBase: ${{ production.CONNECTIONSTRING }}      
+          ConnectionStrings.DataBase: ${{ secrets.CONNECTIONSTRING }}      
           
       - name: Login to Azure
         uses: azure/login@v2
@@ -65,4 +65,3 @@ jobs:
           app-name: 'healthmedfiap'
           slot-name: 'Production'
           package: .
-          
