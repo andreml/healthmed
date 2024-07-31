@@ -58,7 +58,7 @@ namespace HealthMed.Application.Services
                                             doctor.Name,
                                             doctor.Email,
                                             Profile.Doctor,
-                                            JwtUtils.GenerateToken(doctor.Id, Profile.Patient, DateTime.Now.AddDays(7), _config));
+                                            JwtUtils.GenerateToken(doctor.Id, Profile.Doctor, DateTime.Now.AddDays(7), _config));
 
                 response.AddData(login, HttpStatusCode.OK);
             }
