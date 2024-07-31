@@ -3,7 +3,7 @@ using HealthMed.Domain.Repository;
 using HealthMed.Infra.Context;
 using Microsoft.EntityFrameworkCore;
 
-namespace HealthMed.Infra.Repositorio;
+namespace HealthMed.Infra.Repository;
 
 public class ScheduleRepository : IScheduleRepository
 {
@@ -51,11 +51,14 @@ public class ScheduleRepository : IScheduleRepository
     public async Task<Schedule?> GetByIdAndDoctorIdAsync(Guid doctorId, Guid id) =>
         await _dbSet
                 .Include(x => x.Appointments)
+                    .ThenInclude(x => x.Patient)
+                .Include(x => x.Doctor)
                 .FirstOrDefaultAsync(x => x.Id == id && x.Doctor.Id == doctorId);
 
     public async Task<Schedule?> GetByIdAsync(Guid id) =>
         await _dbSet
                 .Include(x => x.Appointments)
                     .ThenInclude(x => x.Patient)
+                .Include(x => x.Doctor)
                 .FirstOrDefaultAsync(x => x.Id == id);
 }

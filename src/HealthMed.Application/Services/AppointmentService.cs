@@ -62,6 +62,12 @@ public class AppointmentService : IAppointmentService
 
             await _appointmentRepository.AddAsync(appointment);
 
+            //TODO: enviar email avisando o agendamento
+            //schedule.Doctor.Email
+            //patient.Name
+            //dto.StartDate
+            //dto.EndDate
+
             response.AddData("Consulta agendada com sucesso!");
             return response;
         }
@@ -84,6 +90,12 @@ public class AppointmentService : IAppointmentService
         }
 
         await _appointmentRepository.RemoveAsync(appointment);
+
+        //TODO: enviar email avisando o cancelamento pelo paciente
+        //appointment.Schedule.Doctor.Email
+        //appointment.Patient.Name
+        //appointment.StartDate
+        //appointment.EndDate
 
         response.AddData("Consulta desmarcada com sucesso!");
         return response;

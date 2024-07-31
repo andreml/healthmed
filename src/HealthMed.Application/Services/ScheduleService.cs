@@ -98,7 +98,10 @@ public class ScheduleService : IScheduleService
             {
                 schedule.Appointments.Remove(appointment);
 
-                //TODO: Send email
+                //TODO: enviar email avisando que o horário ficará indisponível
+                //appointment.Patient.Email
+                //appointment.Patient.Name
+                //doctor.Name
             }
         }
         
@@ -124,7 +127,10 @@ public class ScheduleService : IScheduleService
 
         foreach (var appointment in schedule.Appointments)
         {
-            //TODO: Send email
+            //TODO: enviar email avisando que o horário ficará indisponível
+            //appointment.Patient.Email
+            //appointment.Patient.Name
+            //schedule.Doctor.Name
         }
 
         await _scheduleRepository.RemoveAsync(schedule);

@@ -40,6 +40,9 @@ public class UpdateScheduleDtoValidator : AbstractValidator<UpdateScheduleDto>
 
         RuleFor(x => x)
             .Must(BeOnTheSameDay).WithMessage("Uma agenda deve iniciar e finalizar no mesmo dia");
+
+        RuleFor(x => x)
+            .Must(x => x.EndAvailabilityDate > x.StartAvailabilityDate).WithMessage("StartAvailabilityDate deve ser menor que EndAvailabilityDate");
     }
 
     private bool BeOnTheSameDay(UpdateScheduleDto dto) =>

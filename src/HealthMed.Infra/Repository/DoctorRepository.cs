@@ -4,7 +4,7 @@ using HealthMed.Domain.Utils;
 using HealthMed.Infra.Context;
 using Microsoft.EntityFrameworkCore;
 
-namespace HealthMed.Infra.Repositorio;
+namespace HealthMed.Infra.Repository;
 
 public class DoctorRepository : IDoctorRepository
 {

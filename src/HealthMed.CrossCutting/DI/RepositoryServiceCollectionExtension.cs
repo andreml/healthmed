@@ -1,5 +1,5 @@
 ﻿using HealthMed.Domain.Repository;
-using HealthMed.Infra.Repositorio;
+using HealthMed.Infra.Repository;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace HealthMed.CrossCutting.DI;

@@ -8,9 +8,9 @@ public class AuthDto
     public string Password { get; set; } = default!;
 }
 
-public class AutenticarDtoValidator : AbstractValidator<AuthDto>
+public class AuthDtoValidator : AbstractValidator<AuthDto>
 {
-    public AutenticarDtoValidator()
+    public AuthDtoValidator()
     {
         RuleFor(x => x.Email)
             .NotEmpty().WithMessage("Email é obrigatório");
