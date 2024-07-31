@@ -2,9 +2,10 @@
 
 public class Appointment : Entity
 {
-    public Patient Patient { get; set; } = default!;
-    public Doctor Doctor { get; set; } = default!;
-    public Guid DoctorId { get; set; } = default!;
     public DateTime StartDate { get; set; }
     public DateTime EndDate { get; set; }
+    public Schedule Schedule { get; set; } = default!;
+    public Guid ScheduleId { get; set; } // Foreign key property
+    public Patient Patient { get; set; } = default!;
+    public Guid PatientId { get; set; } // Foreign key property
 }

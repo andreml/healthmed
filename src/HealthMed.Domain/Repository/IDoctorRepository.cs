@@ -8,5 +8,5 @@ public interface IDoctorRepository
     Task AddAsync(Doctor patient);
     Task<Doctor?> GetByEmailAndPasswordAsync(string email, string password);
     Task<Doctor?> GetByEmailOrCpfAsync(string email, string cpf);
-    Task<IEnumerable<Doctor?>> GetAll();
+    Task<ICollection<Doctor>> GetAll();
 }

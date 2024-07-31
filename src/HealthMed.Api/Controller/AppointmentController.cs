@@ -9,7 +9,7 @@ using System.ComponentModel.DataAnnotations;
 namespace HealthMed.Api.Controller;
 
 /// <summary>
-/// Controller responsável pelo gerenciamento de Consultas
+/// Gerenciamento de Consultas
 /// </summary>
 [ApiController]
 [Route("[controller]")]
@@ -61,20 +61,6 @@ public class AppointmentController : BaseController
     [ProducesResponseType(typeof(PatientAppointmentsViewModel), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<IActionResult> GetPatientAppointmentsAsync([FromQuery][Required] DateTime startDate, [FromQuery][Required] DateTime endDate)
-    {
-        var result = await _appointmentService.GetPatientAppointmentsAsync(GetLoggedUserId(), startDate, endDate);
-
-        return Response(result!);
-    }
-
-    /// <summary>
-    /// Obtém Consultas marcadas (Médico)
-    /// </summary>
-    [HttpGet("Doctor")]
-    [Authorize(Roles = $"{Perfis.Doctor}")]
-    [ProducesResponseType(typeof(DoctorAppointmentsViewModel), StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status204NoContent)]
-    public async Task<IActionResult> GetDoctorAppointmentsAsync([FromQuery][Required] DateTime startDate, [FromQuery][Required] DateTime endDate)
     {
         var result = await _appointmentService.GetPatientAppointmentsAsync(GetLoggedUserId(), startDate, endDate);
 

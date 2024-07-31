@@ -29,4 +29,8 @@
     <ProjectReference Include="..\..\src\HealthMed.Domain\HealthMed.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Application\Services\" />
+  </ItemGroup>
+
 </Project>

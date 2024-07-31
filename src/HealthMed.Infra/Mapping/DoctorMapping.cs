@@ -34,5 +34,11 @@ public class DoctorMapping : IEntityTypeConfiguration<Doctor>
             .Property(x => x.Password)
             .HasColumnType("VARCHAR(500)")
             .IsRequired();
+
+        builder
+            .HasMany(e => e.Schedules)
+            .WithOne(e => e.Doctor)
+            .HasForeignKey(e => e.DoctorId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

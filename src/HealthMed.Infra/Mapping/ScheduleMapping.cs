@@ -11,10 +11,6 @@ public class ScheduleMapping : IEntityTypeConfiguration<Schedule>
         builder.HasKey(x => x.Id);
 
         builder
-            .Property(x => x.DoctorId)
-            .IsRequired();
-
-        builder
             .Property(x => x.StartAvailabilityDate)
             .IsRequired();
 
@@ -23,8 +19,15 @@ public class ScheduleMapping : IEntityTypeConfiguration<Schedule>
             .IsRequired();
 
         builder
-            .HasOne<Doctor>()
-            .WithMany()
-            .HasForeignKey(a => a.DoctorId);
+            .HasOne(e => e.Doctor)
+            .WithMany(d => d.Schedules)
+            .HasForeignKey(e => e.DoctorId)
+            .IsRequired();
+
+        builder
+            .HasMany(e => e.Appointments)
+            .WithOne(e => e.Schedule)
+            .HasForeignKey(e => e.ScheduleId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

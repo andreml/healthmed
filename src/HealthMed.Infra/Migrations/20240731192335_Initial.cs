@@ -47,9 +47,9 @@ namespace HealthMed.Infra.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    DoctorId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     StartAvailabilityDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EndAvailabilityDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    EndAvailabilityDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DoctorId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -67,32 +67,27 @@ namespace HealthMed.Infra.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    PatientId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    DoctorId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ScheduleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    PatientId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Appointment", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Appointment_Doctor_DoctorId",
-                        column: x => x.DoctorId,
-                        principalTable: "Doctor",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Appointment_Patient_PatientId",
                         column: x => x.PatientId,
                         principalTable: "Patient",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Appointment_Schedule_ScheduleId",
+                        column: x => x.ScheduleId,
+                        principalTable: "Schedule",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Appointment_DoctorId",
-                table: "Appointment",
-                column: "DoctorId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Appointment_PatientId",
@@ -100,10 +95,9 @@ namespace HealthMed.Infra.Migrations
                 column: "PatientId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Appointment_StartDate_EndDate_DoctorId",
+                name: "IX_Appointment_ScheduleId",
                 table: "Appointment",
-                columns: new[] { "StartDate", "EndDate", "DoctorId" },
-                unique: true);
+                column: "ScheduleId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Schedule_DoctorId",
@@ -118,10 +112,10 @@ namespace HealthMed.Infra.Migrations
                 name: "Appointment");
 
             migrationBuilder.DropTable(
-                name: "Schedule");
+                name: "Patient");
 
             migrationBuilder.DropTable(
-                name: "Patient");
+                name: "Schedule");
 
             migrationBuilder.DropTable(
                 name: "Doctor");

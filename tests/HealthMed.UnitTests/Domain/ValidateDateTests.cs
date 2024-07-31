@@ -10,7 +10,7 @@ namespace HealthMed.UnitTests.Domain
         public void ValidateDate_IsValid(DateTime date, bool valid)
         {
             // Act
-            var validDate = ValidateDate.IsValid(date);
+            var validDate = DateUtils.IsValid(date);
 
             //Assert
             Assert.Equal(valid, validDate);
@@ -31,7 +31,7 @@ namespace HealthMed.UnitTests.Domain
         public void ValidateDate_ValidRange(DateTime startDate, DateTime endDate, bool valid)
         {
             // Act
-            var validDate = ValidateDate.ValidRange(startDate, endDate);
+            var validDate = DateUtils.ValidAppointmentRange(startDate, endDate);
 
             //Assert
             Assert.Equal(valid, validDate);

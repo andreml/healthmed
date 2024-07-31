@@ -1,5 +1,5 @@
 ﻿using HealthMed.Domain.Repository;
-using HealthMed.Infra.Repositorio;
+using HealthMed.Infra.Repository;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace HealthMed.CrossCutting.DI;
@@ -10,8 +10,8 @@ public static class RepositoryServiceCollectionExtension
     {
         service.AddScoped<IPatientRepository, PatientRepository>();
         service.AddScoped<IDoctorRepository, DoctorRepository>();
-        service.AddScoped<IAppointmentRepository, AppointmentRepository>();
         service.AddScoped<IScheduleRepository, ScheduleRepository>();
+        service.AddScoped<IAppointmentRepository, AppointmentRepository>();
 
         return service;
     }
