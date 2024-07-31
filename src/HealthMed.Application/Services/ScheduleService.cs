@@ -131,5 +131,14 @@ namespace HealthMed.Application.Services
             return response;
         }
 
+        public async Task<ResponseBase> GetAvailableSchedulesAsync(Guid doctorId, DateTime startDate, DateTime endDate)
+        {
+            var response = new ResponseBase();
+
+            var schedule = await _scheduleRepository.GetScheduleByDoctorIdAndIntervalAsync(doctorId, startDate, endDate);
+
+
+            return response;
+        }
     }
 }

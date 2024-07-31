@@ -27,7 +27,7 @@ public class AppointmentController : BaseController
     /// Marca uma Consulta (Paciente)
     /// </summary>
     [HttpPost]
-    //[Authorize(Roles = $"{Perfis.Patient}")]
+    [Authorize(Roles = $"{Perfis.Patient}")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(IEnumerable<string>), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> AddAppointmentAsync(AddAppointmentDto dto)
