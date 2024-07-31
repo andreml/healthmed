@@ -1,7 +1,9 @@
 ﻿using HealthMed.Application.Dtos;
 using HealthMed.Application.Services.Interfaces;
 using HealthMed.Application.ViewModels;
+using HealthMed.Domain.Entities;
 using HealthMed.Domain.Repository;
+using System.Data;
 
 namespace HealthMed.Application.Services;
 
@@ -9,73 +11,79 @@ public class AppointmentService : IAppointmentService
 {
     private readonly IAppointmentRepository _appointmentRepository;
     private readonly IPatientRepository _patientRepository;
+    private readonly IScheduleRepository _scheduleRepository;
 
     public AppointmentService(
                 IAppointmentRepository appointmentRepository,
-                IPatientRepository patientRepository)
+                IPatientRepository patientRepository,
+                IScheduleRepository scheduleRepository)
     {
         _appointmentRepository = appointmentRepository;
         _patientRepository = patientRepository;
+        _scheduleRepository = scheduleRepository;
     }
 
     public async Task<ResponseBase> AddAppointmentAsync(AddAppointmentDto dto)
     {
         var response = new ResponseBase();
 
-        var schedule = await _appointmentRepository.GetAppointmentByIdAndDoctorId(dto.ScheduleId, dto.DoctorId);
-        if (schedule is null)
+        try
         {
-            response.AddData("Agenda não encontrada");
+            var patient = await _patientRepository.GetByIdAsync(dto.PatientId);
+            if (patient is null)
+            {
+                response.AddData("Paciente não encontrado");
+                return response;
+            }
+
+            var schedule = await _scheduleRepository.GetByIdAsync(dto.ScheduleId);
+            if (schedule is null)
+            {
+                response.AddData("Agenda não encontrada");
+                return response;
+            }
+
+            var existingAppointment = schedule.Appointments.FirstOrDefault(x => x.StartDate == dto.StartDate);
+            if (existingAppointment is not null)
+            {
+                response.AddData("Já existe uma consulta marcada neste horário");
+                return response;
+            }
+
+            var appointment = new Appointment
+            {
+                Schedule = schedule,
+                ScheduleId = dto.ScheduleId,
+                Patient = patient,
+                PatientId = dto.PatientId,
+                StartDate = dto.StartDate,
+                EndDate = dto.EndDate
+            };
+
+            await _appointmentRepository.AddAsync(appointment);
+
+            response.AddData("Consulta agendada com sucesso!");
             return response;
         }
-
-        if (schedule.Patient is not null)
+        catch (DBConcurrencyException)
         {
-            response.AddData("Já existe uma consulta marcada neste horário");
+            response.AddError("Horário indisponível");
             return response;
         }
-
-        var patient = await _patientRepository.GetByIdAsync(dto.PatientId);
-        if (patient is null)
-        {
-            response.AddData("Paciente não encontrado");
-            return response;
-        }
-
-        schedule.Patient = patient;
-
-        await _appointmentRepository.UpdateAsync(schedule);
-
-        response.AddData("Consulta agendada com sucesso!");
-        return response;
     }
 
-    public async Task<ResponseBase> DeleteAppointmentAsync(Guid patientId, Guid scheduleId)
+    public async Task<ResponseBase> DeleteAppointmentAsync(Guid patientId, Guid appointmentId)
     {
         var response = new ResponseBase();
 
-        var schedule = await _appointmentRepository.GetAppointmentByIdAndDoctorId(scheduleId, patientId);
-        if (schedule is null)
+        var appointment = await _appointmentRepository.GetAppointmentByIdAndPatientId(appointmentId, patientId);
+        if (appointment is null)
         {
             response.AddData("Agenda não encontrada");
             return response;
         }
 
-        if (schedule.Patient is null)
-        {
-            response.AddData("Não existem consultas marcadas para este horário");
-            return response;
-        }
-
-        if (schedule.Patient.Id != patientId)
-        {
-            response.AddData("Não foi possível desmarcar a consulta");
-            return response;
-        }
-
-        schedule.Patient = null;
-
-        await _appointmentRepository.UpdateAsync(schedule);
+        await _appointmentRepository.RemoveAsync(appointment);
 
         response.AddData("Consulta desmarcada com sucesso!");
         return response;
@@ -86,14 +94,14 @@ public class AppointmentService : IAppointmentService
         var response = new ResponseBase();
 
         var appointments = await _appointmentRepository.GetAppointmentsByPatientIdAndInterval(patientId, startDate, endDate);
-        if(!appointments.Any())
+        if (!appointments.Any())
             return response;
 
         var appointmentsResponse = new PatientAppointmentsViewModel
         {
             Appointments = appointments.Select(x => new PatientAppointment
             {
-                Doctor = x.Doctor.Name,
+                Doctor = x.Schedule.Doctor.Name,
                 StartDate = x.StartDate,
                 EndDate = x.EndDate,
             }).ToList()

@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace HealthMed.Api.Controller;
 
 /// <summary>
-/// Controller responsável pelo gerenciamento dos Pacientes
+/// Gerenciamento dos Pacientes
 /// </summary>
 [ApiController]
 [Route("[controller]")]

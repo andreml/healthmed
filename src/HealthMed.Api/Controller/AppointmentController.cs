@@ -9,7 +9,7 @@ using System.ComponentModel.DataAnnotations;
 namespace HealthMed.Api.Controller;
 
 /// <summary>
-/// Controller responsável pelo gerenciamento de Consultas
+/// Gerenciamento de Consultas
 /// </summary>
 [ApiController]
 [Route("[controller]")]

@@ -28,13 +28,10 @@ namespace HealthMed.Infra.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("DoctorId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid?>("PatientId")
+                    b.Property<Guid>("PatientId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("ScheduleId")
@@ -43,17 +40,11 @@ namespace HealthMed.Infra.Migrations
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<byte[]>("Version")
-                        .IsConcurrencyToken()
-                        .IsRequired()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("rowversion");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("DoctorId");
-
                     b.HasIndex("PatientId");
+
+                    b.HasIndex("ScheduleId");
 
                     b.ToTable("Appointment");
                 });
@@ -116,22 +107,71 @@ namespace HealthMed.Infra.Migrations
                     b.ToTable("Patient");
                 });
 
+            modelBuilder.Entity("HealthMed.Domain.Entities.Schedule", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("DoctorId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("EndAvailabilityDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("StartAvailabilityDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DoctorId");
+
+                    b.ToTable("Schedule");
+                });
+
             modelBuilder.Entity("HealthMed.Domain.Entities.Appointment", b =>
                 {
+                    b.HasOne("HealthMed.Domain.Entities.Patient", "Patient")
+                        .WithMany("Appointments")
+                        .HasForeignKey("PatientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("HealthMed.Domain.Entities.Schedule", "Schedule")
+                        .WithMany("Appointments")
+                        .HasForeignKey("ScheduleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Patient");
+
+                    b.Navigation("Schedule");
+                });
+
+            modelBuilder.Entity("HealthMed.Domain.Entities.Schedule", b =>
+                {
                     b.HasOne("HealthMed.Domain.Entities.Doctor", "Doctor")
-                        .WithMany()
+                        .WithMany("Schedules")
                         .HasForeignKey("DoctorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("HealthMed.Domain.Entities.Patient", "Patient")
-                        .WithMany()
-                        .HasForeignKey("PatientId")
-                        .OnDelete(DeleteBehavior.SetNull);
-
                     b.Navigation("Doctor");
+                });
 
-                    b.Navigation("Patient");
+            modelBuilder.Entity("HealthMed.Domain.Entities.Doctor", b =>
+                {
+                    b.Navigation("Schedules");
+                });
+
+            modelBuilder.Entity("HealthMed.Domain.Entities.Patient", b =>
+                {
+                    b.Navigation("Appointments");
+                });
+
+            modelBuilder.Entity("HealthMed.Domain.Entities.Schedule", b =>
+                {
+                    b.Navigation("Appointments");
                 });
 #pragma warning restore 612, 618
         }

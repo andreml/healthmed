@@ -9,7 +9,7 @@ using System.ComponentModel.DataAnnotations;
 namespace HealthMed.Api.Controller;
 
 /// <summary>
-/// Controller responsável pelo gerenciamento de Agendas
+/// Gerenciamento de Agendas
 /// </summary>
 [ApiController]
 [Route("[controller]")]
@@ -86,7 +86,7 @@ public class ScheduleController : BaseController
     /// <summary>
     /// Obtém detalhes de agendas de um Médico (Médico)
     /// </summary>
-    [HttpGet("Doctor/{id}")]
+    [HttpGet("Doctor")]
     [Authorize(Roles = $"{Perfis.Doctor}")]
     [ProducesResponseType(typeof(ICollection<ScheduleViewModel>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]

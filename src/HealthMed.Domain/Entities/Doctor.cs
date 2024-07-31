@@ -9,6 +9,8 @@ public class Doctor : Entity
     public string Crm { get; set; } = default!;
     public string Email { get; set; } = default!;
     public string Password { get; set; } = default!;
+    public ICollection<Schedule> Schedules { get; set; }
+
 
     public Doctor()
     { 
@@ -21,5 +23,6 @@ public class Doctor : Entity
         Crm = crm;
         Email = email;
         Password = Encryptor.Encrypt(password);
+        Schedules = new List<Schedule>();
     }
 }

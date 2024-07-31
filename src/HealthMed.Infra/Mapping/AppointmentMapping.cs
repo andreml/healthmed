@@ -19,21 +19,15 @@ public class AppointmentMapping : IEntityTypeConfiguration<Appointment>
             .IsRequired();
 
         builder
-            .HasOne(a => a.Doctor)
-            .WithMany();
-
-        builder
-            .HasOne(e => e.Doctor)
-            .WithMany()
-            .HasForeignKey("DoctorId") 
-            .OnDelete(DeleteBehavior.Cascade);
+            .HasOne(e => e.Schedule)
+            .WithMany(s => s.Appointments)
+            .HasForeignKey(e => e.ScheduleId)
+            .IsRequired();
 
         builder
             .HasOne(e => e.Patient)
-            .WithMany()
-            .HasForeignKey("PatientId")
-            .OnDelete(DeleteBehavior.SetNull);
-
-        builder.Property(x => x.Version).IsRowVersion();
+            .WithMany(p => p.Appointments)
+            .HasForeignKey(e => e.PatientId)
+            .IsRequired();
     }
 }

@@ -29,5 +29,11 @@ public class PatientMapping : IEntityTypeConfiguration<Patient>
             .Property(x => x.Password)
             .HasColumnType("VARCHAR(500)")
             .IsRequired();
+
+        builder
+            .HasMany(e => e.Appointments)
+            .WithOne(e => e.Patient)
+            .HasForeignKey(e => e.PatientId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

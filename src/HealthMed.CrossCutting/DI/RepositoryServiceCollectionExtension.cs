@@ -10,6 +10,7 @@ public static class RepositoryServiceCollectionExtension
     {
         service.AddScoped<IPatientRepository, PatientRepository>();
         service.AddScoped<IDoctorRepository, DoctorRepository>();
+        service.AddScoped<IScheduleRepository, ScheduleRepository>();
         service.AddScoped<IAppointmentRepository, AppointmentRepository>();
 
         return service;

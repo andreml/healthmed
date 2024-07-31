@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HealthMed.Api.Controller;
 
+/// <summary>
+/// Gerenciamento de Médicos
+/// </summary>
 [ApiController]
 [Route("[controller]")]
 [Produces("application/json")]
@@ -46,7 +49,7 @@ public class DoctorController : BaseController
     }
 
     /// <summary>
-    /// Consulta uma lista de médicos
+    /// Consulta uma lista de Médicos
     /// </summary>
     [HttpGet()]
     [Authorize(Roles = $"{Perfis.Patient}")]
