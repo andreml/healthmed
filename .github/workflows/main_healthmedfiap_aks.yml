@@ -1,0 +1,56 @@
+name: Build e deploy para o AKS
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: 'Production'
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: App Settings Variable Substitution
+        uses: microsoft/variable-substitution@v1
+        with:
+          files: 'src/HealthMed.Api/appsettings.json'
+        env:
+          ConnectionStrings.DataBase: ${{ secrets.CONNECTIONSTRING }}
+
+      - name: Configurando a versão do .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '7.x'
+          include-prerelease: true
+
+      - name: Build with dotnet
+        run: dotnet build --configuration Release
+
+      - name: Login to Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZCREDENTIALS }}
+
+      - name: Login to ACR
+        run: az acr login --name skillcheckregistry
+
+      - name: Build and push Docker image
+        run: |
+          docker build -f src/HealthMed.Api/Dockerfile -t skillcheckregistry.azurecr.io/healthmed-api:latest .
+          docker push skillcheckregistry.azurecr.io/healthmed-api:latest
+
+      - name: Set up Kubernetes
+        uses: azure/setup-kubectl@v1
+        with:
+          version: 'latest'
+
+      - name: Get AKS credentials
+        run: az aks get-credentials --resource-group rg-skillcheck --name cluster-skillcheck
+
+      - name: Deploy to AKS
+        run: kubectl apply -f k8s/api-deployment.yaml
