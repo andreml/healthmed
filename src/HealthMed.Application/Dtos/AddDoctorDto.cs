@@ -33,7 +33,7 @@ public class AddDoctorDtoValidator : AbstractValidator<AddDoctorDto>
             .NotEmpty().WithMessage("Senha é obrigatória")
             .MinimumLength(8).WithMessage("Senha deve conter no mínimo 8 caracteres")
             .Matches(RegexUtils.PasswordValidator)
-            .WithMessage("Senha deve ter pelo menos uma letra maiúscila, uma minúscula, um número e um caractere especial");
+            .WithMessage("Senha deve ter pelo menos uma letra maiúscula, uma minúscula, um número e um caractere especial");
 
         RuleFor(x => x.CRM)
             .NotEmpty().WithMessage("CRM é obrigatório")
