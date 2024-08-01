@@ -27,7 +27,7 @@ public class EmailService : IEmailService
         {
             Text = body
         };
-        email.From.Add(new MailboxAddress("Sender Name", from));
+        email.From.Add(new MailboxAddress("Health&Med", from));
 
         await _smtpClient.SendAsync(email);
     }
