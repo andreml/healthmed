@@ -52,7 +52,11 @@ jobs:
         with:
           files: 'appsettings.json'
         env:
-          ConnectionStrings.DataBase: ${{ secrets.CONNECTIONSTRING }}      
+          ConnectionStrings.DataBase: ${{ secrets.CONNECTIONSTRING }}
+          EmailConfigurations.smtpServer: ${{ secrets.SMTPSERVER }}           
+          EmailConfigurations.smtpPort: ${{ secrets.SMTPPORT }} 
+          EmailConfigurations.smtpUser: ${{ secrets.SMTPUSER }} 
+          EmailConfigurations.smtpPassword: ${{ secrets.SMTPPASSWORD }} 
           
       - name: Login to Azure
         uses: azure/login@v2
