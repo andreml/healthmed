@@ -29,5 +29,9 @@ public class AppointmentMapping : IEntityTypeConfiguration<Appointment>
             .WithMany(p => p.Appointments)
             .HasForeignKey(e => e.PatientId)
             .IsRequired();
+
+        builder
+            .HasIndex(s => new { s.ScheduleId, s.StartDate, s.EndDate })
+            .IsUnique();
     }
 }

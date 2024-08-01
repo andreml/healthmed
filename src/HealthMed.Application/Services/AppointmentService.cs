@@ -4,6 +4,8 @@ using HealthMed.Application.ViewModels;
 using HealthMed.Domain.Entities;
 using HealthMed.Domain.Repository;
 using HealthMed.Infra.Email;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using System.Data;
 
 namespace HealthMed.Application.Services;
@@ -71,10 +73,15 @@ public class AppointmentService : IAppointmentService
             response.AddData("Consulta agendada com sucesso!");
             return response;
         }
-        catch (DBConcurrencyException)
+        catch (DbUpdateException ex)
         {
-            response.AddError("Horário indisponível");
-            return response;
+            if (ex.InnerException is SqlException sqlEx && (sqlEx.Number == 2601 || sqlEx.Number == 2627))
+            {
+                response.AddError("Horário indisponível");
+                return response;
+            }
+
+            throw ex;
         }
     }
 
