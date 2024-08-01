@@ -2,7 +2,7 @@
 {
     public static class ValidateDocument
     {
-        public static bool IsCpf(string document)
+        public static bool ValidCpf(string cpf)
         {
             try
             {
@@ -15,13 +15,13 @@
                 int soma = 0;
                 int resto;
 
-                document = document.Trim();
-                document = document.Replace(".", "").Replace("-", "");
+                cpf = cpf.Trim();
+                cpf = cpf.Replace(".", "").Replace("-", "");
 
-                if (document.Length != 11)
+                if (cpf.Length != 11)
                     return false;
 
-                tempdocument = document[..9];
+                tempdocument = cpf[..9];
 
                 for (int i = 0; i < 9; i++)
                     soma += int.Parse(tempdocument[i].ToString()) * multiplicador1[i];
@@ -45,13 +45,12 @@
 
                 digito += resto.ToString();
 
-                return document.EndsWith(digito);
+                return cpf.EndsWith(digito);
             }
             catch
             {
                 return false;
             }
-
         }
     }
 }

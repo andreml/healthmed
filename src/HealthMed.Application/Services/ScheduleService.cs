@@ -4,27 +4,24 @@ using HealthMed.Application.ViewModels;
 using HealthMed.Domain.Entities;
 using HealthMed.Domain.Repository;
 using HealthMed.Domain.Utils;
-using Microsoft.Extensions.Configuration;
+using HealthMed.Infra.Email;
 
 namespace HealthMed.Application.Services;
 
 public class ScheduleService : IScheduleService
 {
     private readonly IDoctorRepository _doctorRepository;
-    private readonly IAppointmentRepository _appointmentRepository;
     private readonly IScheduleRepository _scheduleRepository;
-    private readonly IConfiguration _configuration;
+    private readonly IEmailService _emailService;
 
     public ScheduleService(
                     IDoctorRepository doctorRepository,
-                    IAppointmentRepository appointmentRepository,
                     IScheduleRepository scheduleRepository,
-                    IConfiguration configuration)
+                    IEmailService emailService)
     {
         _doctorRepository = doctorRepository;
-        _appointmentRepository = appointmentRepository;
         _scheduleRepository = scheduleRepository;
-        _configuration = configuration;
+        _emailService = emailService;
     }
 
     public async Task<ResponseBase> AddScheduleAsync(AddScheduleDto dto)
@@ -89,6 +86,18 @@ public class ScheduleService : IScheduleService
             return response;
         }
 
+        if (schedule.StartAvailabilityDate < DateTime.Now && schedule.EndAvailabilityDate > DateTime.Now)
+        {
+            response.AddError("Não é possível alterar uma agenda em andamento");
+            return response;
+        }
+
+        if (schedule.EndAvailabilityDate < DateTime.Now)
+        {
+            response.AddError("Não é possível alterar uma agenda do passado");
+            return response;
+        }
+
         //Affected appointments
         var affectedAppointments = schedule
                                         .Appointments
@@ -101,8 +110,8 @@ public class ScheduleService : IScheduleService
             if (appointment.StartDate >= dto.StartAvailabilityDate || appointment.EndDate <= dto.EndAvailabilityDate)
             {
                 schedule.Appointments.Remove(appointment);
-                var template = Email.FormatarTemplateAtualizacaoAgenda(appointment.Patient.Email, appointment.Schedule.Doctor.Name, appointment.Patient.Name, appointment.StartDate);
-                Email.EnviarEmail(template, _configuration);
+
+                await _emailService.SendScheduleUpdateToPatientAsync(appointment.Patient.Email, appointment.Patient.Name, appointment.Schedule.Doctor.Name, appointment.StartDate);
             }
         }
         
@@ -126,11 +135,20 @@ public class ScheduleService : IScheduleService
             return response;
         }
 
-        foreach (var appointment in schedule.Appointments)
+        if(schedule.StartAvailabilityDate < DateTime.Now && schedule.EndAvailabilityDate > DateTime.Now)
         {
-            var template = Email.FormatarTemplateAtualizacaoAgenda(appointment.Patient.Email, appointment.Schedule.Doctor.Name, appointment.Patient.Name, appointment.StartDate);
-            Email.EnviarEmail(template, _configuration);
+            response.AddError("Não é possível remover uma agenda em andamento");
+            return response;
         }
+
+        if (schedule.EndAvailabilityDate < DateTime.Now)
+        {
+            response.AddError("Não é possível remover uma agenda do passado");
+            return response;
+        }
+
+        foreach (var appointment in schedule.Appointments)
+            await _emailService.SendScheduleUpdateToPatientAsync(appointment.Patient.Email, appointment.Patient.Name, appointment.Schedule.Doctor.Name, appointment.StartDate);
 
         await _scheduleRepository.RemoveAsync(schedule);
 

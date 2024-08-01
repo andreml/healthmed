@@ -3,10 +3,8 @@ using HealthMed.Application.Services.Interfaces;
 using HealthMed.Application.ViewModels;
 using HealthMed.Domain.Entities;
 using HealthMed.Domain.Repository;
-using HealthMed.Domain.Utils;
-using Microsoft.Extensions.Configuration;
+using HealthMed.Infra.Email;
 using System.Data;
-using System.Numerics;
 
 namespace HealthMed.Application.Services;
 
@@ -15,20 +13,18 @@ public class AppointmentService : IAppointmentService
     private readonly IAppointmentRepository _appointmentRepository;
     private readonly IPatientRepository _patientRepository;
     private readonly IScheduleRepository _scheduleRepository;
-
-    private readonly IConfiguration _configuration;
+    private readonly IEmailService _emailService;
 
     public AppointmentService(
                 IAppointmentRepository appointmentRepository,
                 IPatientRepository patientRepository,
                 IScheduleRepository scheduleRepository,
-                IConfiguration configuration)
+                IEmailService emailService)
     {
         _appointmentRepository = appointmentRepository;
         _patientRepository = patientRepository;
         _scheduleRepository = scheduleRepository;
-
-        _configuration = configuration;
+        _emailService = emailService;
     }
 
     public async Task<ResponseBase> AddAppointmentAsync(AddAppointmentDto dto)
@@ -40,21 +36,21 @@ public class AppointmentService : IAppointmentService
             var patient = await _patientRepository.GetByIdAsync(dto.PatientId);
             if (patient is null)
             {
-                response.AddData("Paciente não encontrado");
+                response.AddError("Paciente não encontrado");
                 return response;
             }
 
             var schedule = await _scheduleRepository.GetByIdAsync(dto.ScheduleId);
             if (schedule is null)
             {
-                response.AddData("Agenda não encontrada");
+                response.AddError("Agenda não encontrada");
                 return response;
             }
 
             var existingAppointment = schedule.Appointments.FirstOrDefault(x => x.StartDate == dto.StartDate);
             if (existingAppointment is not null)
             {
-                response.AddData("Já existe uma consulta marcada neste horário");
+                response.AddError("Já existe uma consulta marcada neste horário");
                 return response;
             }
 
@@ -70,8 +66,7 @@ public class AppointmentService : IAppointmentService
 
             await _appointmentRepository.AddAsync(appointment);
 
-            var template = Email.FormatarTemplateConfirmacaoConsulta(schedule.Doctor.Name, patient.Name, appointment.StartDate, schedule.Doctor.Email);
-            Email.EnviarEmail(template, _configuration);
+            await _emailService.SendNewAppointmentToDoctorAsync(schedule.Doctor.Email, schedule.Doctor.Name, patient.Name, appointment.StartDate);
 
             response.AddData("Consulta agendada com sucesso!");
             return response;
@@ -90,14 +85,25 @@ public class AppointmentService : IAppointmentService
         var appointment = await _appointmentRepository.GetAppointmentByIdAndPatientId(appointmentId, patientId);
         if (appointment is null)
         {
-            response.AddData("Agenda não encontrada");
+            response.AddError("Consulta não encontrada");
+            return response;
+        }
+
+        if (appointment.StartDate < DateTime.Now && appointment.EndDate > DateTime.Now)
+        {
+            response.AddError("Não é possível remover uma consulta em andamento");
+            return response;
+        }
+
+        if (appointment.EndDate < DateTime.Now)
+        {
+            response.AddError("Não é possível remover uma consulta do passado");
             return response;
         }
 
         await _appointmentRepository.RemoveAsync(appointment);
 
-        var template = Email.FormatarTemplateCancelamentoConsulta(appointment.Schedule.Doctor.Email, appointment.Schedule.Doctor.Name, appointment.Patient.Name, appointment.StartDate);
-        Email.EnviarEmail(template, _configuration);
+        await _emailService.SendAppointmentCanceledToDoctorAsync(appointment.Schedule.Doctor.Email, appointment.Schedule.Doctor.Name, appointment.Patient.Name, appointment.StartDate);
 
         response.AddData("Consulta desmarcada com sucesso!");
         return response;

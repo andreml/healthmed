@@ -29,6 +29,7 @@ public class UpdateScheduleDtoValidator : AbstractValidator<UpdateScheduleDto>
         RuleFor(x => x.StartAvailabilityDate)
             .NotEmpty().WithMessage("StartAvailabilityDate é obrigatório")
             .Must(DateUtils.IsValid).WithMessage("StartAvailabilityDate deve terminar com minutos 00 ou 30")
+            .Must(x => x > DateTime.Now).WithMessage("StartAvailabilityDate deve ser uma data futura")
             .Must((dto, startDate) => DateUtils.ValidScheduleRange(startDate, dto.EndAvailabilityDate)).WithMessage("Agendas devem no mínimo um intervalo de 30 minutos");
 
         RuleFor(x => x.EndAvailabilityDate)

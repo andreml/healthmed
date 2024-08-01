@@ -1,9 +1,9 @@
 ﻿using HealthMed.Domain.Entities;
 using HealthMed.Domain.Repository;
-using HealthMed.Infra.Context;
+using HealthMed.Infra.Data.Context;
 using Microsoft.EntityFrameworkCore;
 
-namespace HealthMed.Infra.Repository;
+namespace HealthMed.Infra.Data.Repository;
 
 public class AppointmentRepository : IAppointmentRepository
 {

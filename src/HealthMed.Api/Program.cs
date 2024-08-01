@@ -15,6 +15,7 @@ builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddContextConfig(builder.Configuration);
 builder.Configuration.AddJsonFile("appsettings.json").Build();
 builder.Services.AddJwtConfiguration(builder.Configuration);
+builder.Services.AddSmtpClient(builder.Configuration);
 
 builder.Services.AddMvc(options =>
 {

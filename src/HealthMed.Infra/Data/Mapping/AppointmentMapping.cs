@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace HealthMed.Infra.Mapping;
+namespace HealthMed.Infra.Data.Mapping;
 
 public class AppointmentMapping : IEntityTypeConfiguration<Appointment>
 {

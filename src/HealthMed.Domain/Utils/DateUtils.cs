@@ -18,12 +18,6 @@ public static class DateUtils
 
     public static List<Tuple<DateTime, DateTime>> SplitInto30MinuteIntervals(DateTime start, DateTime end)
     {
-        if (start > end)
-            throw new ArgumentException("The start time must be before the end time.");
-
-        if (start.Minute % 30 != 0 || end.Minute % 30 != 0)
-            throw new ArgumentException("Start and end times must be on the hour or half-hour.");
-
         var intervals = new List<Tuple<DateTime, DateTime>>();
 
         DateTime currentStart = start;

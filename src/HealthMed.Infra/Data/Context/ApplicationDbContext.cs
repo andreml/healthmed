@@ -1,7 +1,7 @@
 ﻿using HealthMed.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace HealthMed.Infra.Context;
+namespace HealthMed.Infra.Data.Context;
 
 public class ApplicationDbContext : DbContext
 {
