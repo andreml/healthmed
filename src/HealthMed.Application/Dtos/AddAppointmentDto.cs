@@ -32,6 +32,6 @@ public class AddAppointmentDtoValidator : AbstractValidator<AddAppointmentDto>
             .Must(x => x.EndDate > x.StartDate).WithMessage("StartDate deve ser menor que EndDate");
 
         RuleFor(x => x)
-            .Must(x => DateUtils.ValidScheduleRange(x.StartDate, x.EndDate)).WithMessage("Consultas devem ter 30 minutos de intervalo");
+            .Must(x => DateUtils.ValidAppointmentRange(x.StartDate, x.EndDate)).WithMessage("Consultas devem ter 30 minutos de intervalo");
     }
 }

@@ -32,21 +32,21 @@ public class AppointmentService : IAppointmentService
             var patient = await _patientRepository.GetByIdAsync(dto.PatientId);
             if (patient is null)
             {
-                response.AddData("Paciente não encontrado");
+                response.AddError("Paciente não encontrado");
                 return response;
             }
 
             var schedule = await _scheduleRepository.GetByIdAsync(dto.ScheduleId);
             if (schedule is null)
             {
-                response.AddData("Agenda não encontrada");
+                response.AddError("Agenda não encontrada");
                 return response;
             }
 
             var existingAppointment = schedule.Appointments.FirstOrDefault(x => x.StartDate == dto.StartDate);
             if (existingAppointment is not null)
             {
-                response.AddData("Já existe uma consulta marcada neste horário");
+                response.AddError("Já existe uma consulta marcada neste horário");
                 return response;
             }
 
@@ -85,7 +85,7 @@ public class AppointmentService : IAppointmentService
         var appointment = await _appointmentRepository.GetAppointmentByIdAndPatientId(appointmentId, patientId);
         if (appointment is null)
         {
-            response.AddData("Agenda não encontrada");
+            response.AddError("Consulta não encontrada");
             return response;
         }
 
