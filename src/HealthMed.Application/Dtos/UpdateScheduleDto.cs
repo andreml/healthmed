@@ -23,9 +23,6 @@ public class UpdateScheduleDtoValidator : AbstractValidator<UpdateScheduleDto>
 {
     public UpdateScheduleDtoValidator()
     {
-        RuleFor(x => x.DoctorId)
-            .NotEmpty().WithMessage("DoctorId é obrigatório");
-
         RuleFor(x => x.ScheduleId)
             .NotEmpty().WithMessage("ScheduleId é obrigatório");
 

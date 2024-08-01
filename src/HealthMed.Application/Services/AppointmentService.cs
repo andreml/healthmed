@@ -3,7 +3,10 @@ using HealthMed.Application.Services.Interfaces;
 using HealthMed.Application.ViewModels;
 using HealthMed.Domain.Entities;
 using HealthMed.Domain.Repository;
+using HealthMed.Domain.Utils;
+using Microsoft.Extensions.Configuration;
 using System.Data;
+using System.Numerics;
 
 namespace HealthMed.Application.Services;
 
@@ -13,14 +16,19 @@ public class AppointmentService : IAppointmentService
     private readonly IPatientRepository _patientRepository;
     private readonly IScheduleRepository _scheduleRepository;
 
+    private readonly IConfiguration _configuration;
+
     public AppointmentService(
                 IAppointmentRepository appointmentRepository,
                 IPatientRepository patientRepository,
-                IScheduleRepository scheduleRepository)
+                IScheduleRepository scheduleRepository,
+                IConfiguration configuration)
     {
         _appointmentRepository = appointmentRepository;
         _patientRepository = patientRepository;
         _scheduleRepository = scheduleRepository;
+
+        _configuration = configuration;
     }
 
     public async Task<ResponseBase> AddAppointmentAsync(AddAppointmentDto dto)
@@ -63,10 +71,8 @@ public class AppointmentService : IAppointmentService
             await _appointmentRepository.AddAsync(appointment);
 
             //TODO: enviar email avisando o agendamento
-            //schedule.Doctor.Email
-            //patient.Name
-            //dto.StartDate
-            //dto.EndDate
+            var template = Email.FormatarTemplateConfirmacaoConsulta(schedule.Doctor.Name, patient.Name, appointment.StartDate, schedule.Doctor.Email);
+            Email.EnviarEmail(template, _configuration);
 
             response.AddData("Consulta agendada com sucesso!");
             return response;

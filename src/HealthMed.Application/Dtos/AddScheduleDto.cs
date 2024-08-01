@@ -22,9 +22,6 @@ public class AddScheduleDtoValidator : AbstractValidator<AddScheduleDto>
 {
     public AddScheduleDtoValidator()
     {
-        RuleFor(x => x.DoctorId)
-            .NotEmpty().WithMessage("DoctorId é obrigatório");
-
         RuleFor(x => x.StartAvailabilityDate)
             .NotEmpty().WithMessage("StartAvailabilityDate é obrigatório")
             .Must(DateUtils.IsValid).WithMessage("StartAvailabilityDate deve terminar com minutos 00 ou 30")
