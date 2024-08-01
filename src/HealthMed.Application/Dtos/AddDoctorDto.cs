@@ -42,7 +42,7 @@ namespace HealthMed.Application.Dtos
 
             RuleFor(x => x.CRM)
                 .NotEmpty().WithMessage("CRM é obrigatório")
-                .Must(ValidateDocument.IsCpf).WithMessage("CRM inválido");
+                .MaximumLength(20).WithMessage("CRM deve ter até 20 caracteres");
         }
     }
 }

@@ -9,11 +9,11 @@ namespace HealthMed.Domain.Utils
 
         public static void EnviarEmail(MimeMessage template, IConfiguration configuration)
         {
-            template.From.Add(new MailboxAddress("Health&Med", configuration["smtpUser"]));
+            template.From.Add(new MailboxAddress("Health&Med", configuration["EmailConfigurations:smtpUser"]));
             using (var smtp = new SmtpClient())
             {
-                smtp.Connect(configuration["smtpServer"], Convert.ToInt32(configuration["smtpPort"]), false);
-                smtp.Authenticate(configuration["smtpUser"], configuration["smtpPassword"]);
+                smtp.Connect(configuration["EmailConfigurations:smtpServer"], Convert.ToInt32(configuration["EmailConfigurations:smtpPort"]));
+                smtp.Authenticate(configuration["EmailConfigurations:smtpUser"], configuration["EmailConfigurations:smtpPassword"]);
                 smtp.Send(template);
                 smtp.Disconnect(true);
             }
