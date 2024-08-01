@@ -31,7 +31,7 @@ public class AppointmentMapping : IEntityTypeConfiguration<Appointment>
             .IsRequired();
 
         builder
-            .HasIndex(s => new { s.ScheduleId, s.StartDate, s.EndDate })
+            .HasIndex(s => new { s.ScheduleId, s.StartDate, s.EndDate, s.PatientId })
             .IsUnique();
     }
 }
