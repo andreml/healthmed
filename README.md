@@ -18,10 +18,10 @@ E para os médicos facilitar o controle das agendas com os seus pacientes.
 
 Criamos 4 tabelas para atender os requistos do projeto
 
-**Doctor:** Tabela com os dados do médico
-**Patient:** Tabela com os dados do paciente
-**Appontment:** Tabela das consultas agendadas do paciente
-**Schedule:** Tabela da agenda de atendimento do Médico
+**Doctor:** Tabela com os dados do médico <br/>
+**Patient:** Tabela com os dados do paciente <br/>
+**Appontment:** Tabela das consultas agendadas do paciente <br/>
+**Schedule:** Tabela da agenda de atendimento do Médico <br/>
 
 **Diagrama das tabelas:** 
 
