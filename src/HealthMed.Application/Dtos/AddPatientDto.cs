@@ -26,7 +26,7 @@ public class AddPatientDtoValidator : AbstractValidator<AddPatientDto>
 
         RuleFor(x => x.Cpf)
             .NotEmpty().WithMessage("Cpf é obrigatório")
-            .Must(ValidateDocument.IsCpf).WithMessage("Cpf inválido");
+            .Must(ValidateDocument.ValidCpf).WithMessage("Cpf inválido");
 
         RuleFor(x => x.Password)
             .NotEmpty().WithMessage("Senha é obrigatória")

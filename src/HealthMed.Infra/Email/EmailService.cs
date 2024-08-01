@@ -32,7 +32,7 @@ public class EmailService : IEmailService
         await _smtpClient.SendAsync(email);
     }
 
-    public async Task SendScheduleUpdateToPatient(string patientEmail, string patientName, string doctorName, DateTime appointmentDate)
+    public async Task SendScheduleUpdateToPatientAsync(string patientEmail, string patientName, string doctorName, DateTime appointmentDate)
     {
         var subject = "Health&Med - Aviso Remarcação de Consulta";
 
@@ -46,7 +46,7 @@ public class EmailService : IEmailService
         await SendEmailAsync(patientName, patientEmail, subject, body);
     }
 
-    public async Task SendAppointmentCanceledToDoctor(string doctorEmail, string doctorName, string patientName, DateTime appointmentDate)
+    public async Task SendAppointmentCanceledToDoctorAsync(string doctorEmail, string doctorName, string patientName, DateTime appointmentDate)
     {
         var subject = "Health&Med - Consulta cancelada";
 
@@ -59,7 +59,7 @@ public class EmailService : IEmailService
         await SendEmailAsync(doctorName, doctorEmail, subject, body);
     }
 
-    public async Task SendNewAppointmentToDoctor(string doctorEmail, string doctorName, string patientName, DateTime appointmentDate)
+    public async Task SendNewAppointmentToDoctorAsync(string doctorEmail, string doctorName, string patientName, DateTime appointmentDate)
     {
         var subject = "Health&Med - Nova consulta agendada";
 

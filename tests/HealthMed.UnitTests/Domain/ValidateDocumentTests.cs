@@ -7,13 +7,13 @@ public class ValidateDocumentTests
 {
     [Theory]
     [MemberData(nameof(GetCpfs))]
-    public void ValidateDocument_IsCpf(string cpf, bool valido)
+    public void ValidateDocument_ValidCpf(string cpf, bool expected)
     {
         // Act
-        var cpfValido = ValidateDocument.IsCpf(cpf);
+        var valid = ValidateDocument.ValidCpf(cpf);
 
         //Assert
-        Assert.Equal(valido, cpfValido);
+        Assert.Equal(expected, valid);
     }
 
     public static IEnumerable<object[]> GetCpfs()

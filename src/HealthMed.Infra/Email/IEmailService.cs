@@ -2,7 +2,7 @@
 
 public interface IEmailService
 {
-    Task SendScheduleUpdateToPatient(string patientEmail, string patientName, string doctorName, DateTime appointmentDate);
-    Task SendAppointmentCanceledToDoctor(string doctorEmail, string doctorName, string patientName, DateTime appointmentDate);
-    Task SendNewAppointmentToDoctor(string doctorEmail, string doctorName, string patientName, DateTime appointmentDate);
+    Task SendScheduleUpdateToPatientAsync(string patientEmail, string patientName, string doctorName, DateTime appointmentDate);
+    Task SendAppointmentCanceledToDoctorAsync(string doctorEmail, string doctorName, string patientName, DateTime appointmentDate);
+    Task SendNewAppointmentToDoctorAsync(string doctorEmail, string doctorName, string patientName, DateTime appointmentDate);
 }

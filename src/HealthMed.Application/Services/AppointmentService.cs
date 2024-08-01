@@ -66,7 +66,7 @@ public class AppointmentService : IAppointmentService
 
             await _appointmentRepository.AddAsync(appointment);
 
-            await _emailService.SendNewAppointmentToDoctor(schedule.Doctor.Email, schedule.Doctor.Name, patient.Name, appointment.StartDate);
+            await _emailService.SendNewAppointmentToDoctorAsync(schedule.Doctor.Email, schedule.Doctor.Name, patient.Name, appointment.StartDate);
 
             response.AddData("Consulta agendada com sucesso!");
             return response;
@@ -89,9 +89,21 @@ public class AppointmentService : IAppointmentService
             return response;
         }
 
+        if (appointment.StartDate < DateTime.Now && appointment.EndDate > DateTime.Now)
+        {
+            response.AddError("Não é possível remover uma consulta em andamento");
+            return response;
+        }
+
+        if (appointment.EndDate < DateTime.Now)
+        {
+            response.AddError("Não é possível remover uma consulta do passado");
+            return response;
+        }
+
         await _appointmentRepository.RemoveAsync(appointment);
 
-        await _emailService.SendAppointmentCanceledToDoctor(appointment.Schedule.Doctor.Email, appointment.Schedule.Doctor.Name, appointment.Patient.Name, appointment.StartDate);
+        await _emailService.SendAppointmentCanceledToDoctorAsync(appointment.Schedule.Doctor.Email, appointment.Schedule.Doctor.Name, appointment.Patient.Name, appointment.StartDate);
 
         response.AddData("Consulta desmarcada com sucesso!");
         return response;

@@ -110,7 +110,8 @@ public class AppointmentServiceTests
         _scheduleRepoMock.Setup(x => x.GetByIdAsync(It.IsAny<Guid>()))
             .ReturnsAsync(new Schedule
             {
-                Appointments = new List<Appointment>()
+                Appointments = new List<Appointment>(),
+                Doctor = new Doctor("","","","", "")
             });
 
         // Act
@@ -119,6 +120,7 @@ public class AppointmentServiceTests
         // Assert
         Assert.False(result.HasError);
         _appointmentRepoMock.Verify(x => x.AddAsync(It.IsAny<Appointment>()), times: Times.Once);
+        _emailServiceMock.Verify(x => x.SendNewAppointmentToDoctorAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<DateTime>()), times: Times.Once);
     }
 
     [Fact]
@@ -140,11 +142,46 @@ public class AppointmentServiceTests
 
     [Fact]
     [Trait("Category", "DeleteAppointmentAsync")]
+    public async Task DeleteAppointmentAsync_ShouldReturErrorWhenAppointmentInProgress()
+    {
+        // Arrange
+        _appointmentRepoMock.Setup(x => x.GetAppointmentByIdAndPatientId(It.IsAny<Guid>(), It.IsAny<Guid>()))
+            .ReturnsAsync(new Appointment
+            {
+                Schedule = new Schedule
+                {
+                    Doctor = new Doctor("", "", "", "", "")
+                },
+                Patient = new Patient("", "", "", ""),
+                StartDate = DateTime.Now.AddMinutes(-10),
+                EndDate = DateTime.Now.AddMinutes(20)
+            });
+
+        // Act
+        var result = await _service.DeleteAppointmentAsync(Guid.NewGuid(), Guid.NewGuid());
+
+        // Assert
+        Assert.True(result.HasError);
+        Assert.Contains("Não é possível remover uma consulta em andamento", result.Errors);
+        _appointmentRepoMock.Verify(x => x.RemoveAsync(It.IsAny<Appointment>()), times: Times.Never);
+    }
+
+    [Fact]
+    [Trait("Category", "DeleteAppointmentAsync")]
     public async Task DeleteAppointmentAsync_ShouldReturSuccess()
     {
         // Arrange
         _appointmentRepoMock.Setup(x => x.GetAppointmentByIdAndPatientId(It.IsAny<Guid>(), It.IsAny<Guid>()))
-            .ReturnsAsync(new Appointment());
+            .ReturnsAsync(new Appointment
+            {
+                Schedule = new Schedule
+                {
+                    Doctor = new Doctor("", "", "", "", "")
+                },
+                Patient = new Patient("","","",""),
+                StartDate = DateTime.Now.AddMinutes(60),
+                EndDate = DateTime.Now.AddMinutes(90)
+            });
 
         // Act
         var result = await _service.DeleteAppointmentAsync(Guid.NewGuid(), Guid.NewGuid());
@@ -152,5 +189,6 @@ public class AppointmentServiceTests
         // Assert
         Assert.False(result.HasError);
         _appointmentRepoMock.Verify(x => x.RemoveAsync(It.IsAny<Appointment>()), times: Times.Once);
+        _emailServiceMock.Verify(x => x.SendAppointmentCanceledToDoctorAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<DateTime>()), times: Times.Once);
     }
 }
