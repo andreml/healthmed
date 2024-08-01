@@ -18,8 +18,7 @@ E para os médicos facilitar o controle das agendas com os seus pacientes.
 
 **Requisitos Funcionais**
 **1. Cadastro do Usuário (Médico)**<br/>
-    O médico deverá poder se cadastrar, preenchendo os campos abaixo<br/>
-    **Obrigatórios:** Nome, CPF, Número CRM, E-mail e Senha.
+    O médico deverá poder se cadastrar, preenchendo os campos: Nome, CPF, Número CRM, E-mail e Senha.
 
     **Mensagens de retorno:**<br/>
      Nome é obrigatório<br/>
@@ -37,7 +36,6 @@ E para os médicos facilitar o controle das agendas com os seus pacientes.
 
 **2. Autenticação do Usuário (Médico)**<br/>
     O sistema deve permitir que o médico faça login usando o E-mail e uma Senha.<br/>
-    Obrigatórios: E-mail e Senha.<br/>
 
     **Mensagens de retorno:**<br/>
     Não foi possível gerar token para acesso do usuário.<br/>
@@ -56,33 +54,44 @@ E para os médicos facilitar o controle das agendas com os seus pacientes.
     StartAvailabilityDate deve ser menor que EndAvailabilityDate<br/>
     
 4. Cadastro do Usuário (Paciente)
-    O paciente poderá se cadastrar preenchendo os campos abaixo
-    Nome, CPF, Email e Senha.
-6. Autenticação do Usuário (Paciente)
-O sistema deve permitir que o paciente faça login usando um E-mail e
-Senha.
-7. Busca por Médicos (Paciente)
+    O paciente poderá se cadastrar preenchendo os campos Nome, CPF, Email e Senha.
+    
+5. Autenticação do Usuário (Paciente)
+    O sistema deve permitir que o paciente faça login usando um E-mail e Senha.
+
+    **Mensagens de retorno:**<br/>
+    Não foi possível gerar token para acesso do usuário.<br/>
+    
+6. Busca por Médicos (Paciente)
 O sistema deve permitir que o paciente visualize a listagem dos médicos
 disponíveis.
-8. Agendamento de Consultas (Paciente)
-Após selecionar o médico, o paciente deve poder visualizar a agenda do
-médico com os horários disponíveis e efetuar o agendamento.
-9. Notificação de consulta marcada (Médico)
-Após o agendamento, feito pelo usuário Paciente, o médico deverá
-receber um e-mail contendo:
+
+7. Agendamento de Consultas (Paciente)<br/>
+    Após selecionar o médico, o paciente deve poder visualizar a agenda do médico com os horários disponíveis e efetuar o agendamento.
+    ScheduleId é obrigatório<br/>
+    StartDate é obrigatório<br/>
+    São permitidos apenas horários com final 00min e 30min<br/>
+    EndDate é obrigatório<br/>
+    São permitidos apenas horários com final 00min e 30min<br/>
+    StartDate deve ser menor que EndDate<br/>
+    Consultas devem ter 30 minutos de intervalo
+
+8. Notificação de consulta marcada (Médico)
+Após o agendamento, feito pelo usuário Paciente, o médico deverá receber um e-mail contendo:
 Título do e-mail:
 ”Health&Med - Nova consulta agendada”
 Corpo do e-mail:
 ”Olá, Dr. {nome_do_médico}!
 Você tem uma nova consulta marcada!
 Paciente: {nome_do_paciente}.
-Data e horário: {data} às {horário_agendado}.”
-Hackathon - Turma .NET 3
+Data e horário: {data} às {horário_agendado}.
+
 Requisitos Não Funcionais
 1. Concorrência de Agendamentos
-O sistema deve ser capaz de suportar múltiplos acessos simultâneos e
-garantir que apenas uma marcação de consulta seja permitida para um
-determinado horário.
+    O sistema deve ser capaz de suportar múltiplos acessos simultâneos e
+    garantir que apenas uma marcação de consulta seja permitida para um
+    determinado horário.
+   
 2. Validação de Conflito de Horários
 O sistema deve validar a disponibilidade do horário selecionado em tempo
 real, assegurando que não haja sobreposição de horários para consultas
