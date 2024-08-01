@@ -31,6 +31,9 @@ jobs:
       - name: Build with dotnet
         run: dotnet build --configuration Release
 
+      - name: Testes Unitários
+        run: dotnet test tests/HealthMed.UnitTests/HealthMed.UnitTests.csproj
+
       - name: Login to Azure
         uses: azure/login@v1
         with:
@@ -54,3 +57,4 @@ jobs:
 
       - name: Deploy to AKS
         run: kubectl apply -f k8s/api-deployment.yaml
+
