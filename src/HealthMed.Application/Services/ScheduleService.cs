@@ -4,6 +4,7 @@ using HealthMed.Application.ViewModels;
 using HealthMed.Domain.Entities;
 using HealthMed.Domain.Repository;
 using HealthMed.Domain.Utils;
+using Microsoft.Extensions.Configuration;
 
 namespace HealthMed.Application.Services;
 
@@ -12,15 +13,18 @@ public class ScheduleService : IScheduleService
     private readonly IDoctorRepository _doctorRepository;
     private readonly IAppointmentRepository _appointmentRepository;
     private readonly IScheduleRepository _scheduleRepository;
+    private readonly IConfiguration _configuration;
 
     public ScheduleService(
                     IDoctorRepository doctorRepository,
                     IAppointmentRepository appointmentRepository,
-                    IScheduleRepository scheduleRepository)
+                    IScheduleRepository scheduleRepository,
+                    IConfiguration configuration)
     {
         _doctorRepository = doctorRepository;
         _appointmentRepository = appointmentRepository;
         _scheduleRepository = scheduleRepository;
+        _configuration = configuration;
     }
 
     public async Task<ResponseBase> AddScheduleAsync(AddScheduleDto dto)
@@ -97,11 +101,8 @@ public class ScheduleService : IScheduleService
             if (appointment.StartDate >= dto.StartAvailabilityDate || appointment.EndDate <= dto.EndAvailabilityDate)
             {
                 schedule.Appointments.Remove(appointment);
-
-                //TODO: enviar email avisando que o horário ficará indisponível
-                //appointment.Patient.Email
-                //appointment.Patient.Name
-                //doctor.Name
+                var template = Email.FormatarTemplateAtualizacaoAgenda(appointment.Patient.Email, appointment.Schedule.Doctor.Name, appointment.Patient.Name, appointment.StartDate);
+                Email.EnviarEmail(template, _configuration);
             }
         }
         
@@ -127,10 +128,8 @@ public class ScheduleService : IScheduleService
 
         foreach (var appointment in schedule.Appointments)
         {
-            //TODO: enviar email avisando que o horário ficará indisponível
-            //appointment.Patient.Email
-            //appointment.Patient.Name
-            //schedule.Doctor.Name
+            var template = Email.FormatarTemplateAtualizacaoAgenda(appointment.Patient.Email, appointment.Schedule.Doctor.Name, appointment.Patient.Name, appointment.StartDate);
+            Email.EnviarEmail(template, _configuration);
         }
 
         await _scheduleRepository.RemoveAsync(schedule);
