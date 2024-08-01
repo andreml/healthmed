@@ -23,6 +23,9 @@ jobs:
           dotnet build
           dotnet publish src/HealthMed.Api/HealthMed.Api.csproj -c Release -o ${{env.DOTNET_ROOT}}/myapp
 
+      - name: Testes Unitários
+        run: dotnet test tests/HealthMed.UnitTests/HealthMed.UnitTests.csproj
+
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
