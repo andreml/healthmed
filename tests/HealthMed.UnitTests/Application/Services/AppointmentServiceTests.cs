@@ -1,14 +1,9 @@
 ﻿using HealthMed.Application.Services;
 using HealthMed.Domain.Entities;
 using HealthMed.Domain.Repository;
-using HealthMed.Infra.Repository;
+using HealthMed.Infra.Email;
 using HealthMed.UnitTests.Fixtures;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace HealthMed.UnitTests.Application.Services;
@@ -20,6 +15,7 @@ public class AppointmentServiceTests
     private readonly Mock<IAppointmentRepository> _appointmentRepoMock;
     private readonly Mock<IPatientRepository> _patientRepoMock;
     private readonly Mock<IScheduleRepository> _scheduleRepoMock;
+    private readonly Mock<IEmailService> _emailServiceMock;
 
     private readonly AppointmentService _service;
 
@@ -29,11 +25,13 @@ public class AppointmentServiceTests
         _appointmentRepoMock = new Mock<IAppointmentRepository>();
         _patientRepoMock = new Mock<IPatientRepository>();
         _scheduleRepoMock = new Mock<IScheduleRepository>();
+        _emailServiceMock = new Mock<IEmailService>();
 
         _service = new AppointmentService(
                         _appointmentRepoMock.Object,
                         _patientRepoMock.Object,
-                        _scheduleRepoMock.Object);
+                        _scheduleRepoMock.Object,
+                        _emailServiceMock.Object);
     }
 
     [Fact]

@@ -4,6 +4,7 @@ using HealthMed.Application.ViewModels;
 using HealthMed.Domain.Entities;
 using HealthMed.Domain.Repository;
 using HealthMed.Domain.Utils;
+using HealthMed.Infra.Email;
 using Microsoft.Extensions.Configuration;
 
 namespace HealthMed.Application.Services;
@@ -13,18 +14,18 @@ public class ScheduleService : IScheduleService
     private readonly IDoctorRepository _doctorRepository;
     private readonly IAppointmentRepository _appointmentRepository;
     private readonly IScheduleRepository _scheduleRepository;
-    private readonly IConfiguration _configuration;
+    private readonly IEmailService _emailService;
 
     public ScheduleService(
                     IDoctorRepository doctorRepository,
                     IAppointmentRepository appointmentRepository,
                     IScheduleRepository scheduleRepository,
-                    IConfiguration configuration)
+                    IEmailService emailService)
     {
         _doctorRepository = doctorRepository;
         _appointmentRepository = appointmentRepository;
         _scheduleRepository = scheduleRepository;
-        _configuration = configuration;
+        _emailService = emailService;
     }
 
     public async Task<ResponseBase> AddScheduleAsync(AddScheduleDto dto)
@@ -101,8 +102,8 @@ public class ScheduleService : IScheduleService
             if (appointment.StartDate >= dto.StartAvailabilityDate || appointment.EndDate <= dto.EndAvailabilityDate)
             {
                 schedule.Appointments.Remove(appointment);
-                var template = Email.FormatarTemplateAtualizacaoAgenda(appointment.Patient.Email, appointment.Schedule.Doctor.Name, appointment.Patient.Name, appointment.StartDate);
-                Email.EnviarEmail(template, _configuration);
+
+                await _emailService.SendScheduleUpdateToPatient(appointment.Patient.Email, appointment.Patient.Name, appointment.Schedule.Doctor.Name, appointment.StartDate);
             }
         }
         
@@ -127,10 +128,7 @@ public class ScheduleService : IScheduleService
         }
 
         foreach (var appointment in schedule.Appointments)
-        {
-            var template = Email.FormatarTemplateAtualizacaoAgenda(appointment.Patient.Email, appointment.Schedule.Doctor.Name, appointment.Patient.Name, appointment.StartDate);
-            Email.EnviarEmail(template, _configuration);
-        }
+            await _emailService.SendScheduleUpdateToPatient(appointment.Patient.Email, appointment.Patient.Name, appointment.Schedule.Doctor.Name, appointment.StartDate);
 
         await _scheduleRepository.RemoveAsync(schedule);
 

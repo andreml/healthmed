@@ -2,11 +2,11 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace HealthMed.Infra.Mapping;
+namespace HealthMed.Infra.Data.Mapping;
 
-public class DoctorMapping : IEntityTypeConfiguration<Doctor>
+public class PatientMapping : IEntityTypeConfiguration<Patient>
 {
-    public void Configure(EntityTypeBuilder<Doctor> builder)
+    public void Configure(EntityTypeBuilder<Patient> builder)
     {
         builder.HasKey(x => x.Id);
 
@@ -21,11 +21,6 @@ public class DoctorMapping : IEntityTypeConfiguration<Doctor>
             .IsRequired();
 
         builder
-            .Property(x => x.Crm)
-            .HasColumnType("VARCHAR(20)")
-            .IsRequired();
-
-        builder
             .Property(x => x.Email)
             .HasColumnType("VARCHAR(250)")
             .IsRequired();
@@ -36,9 +31,9 @@ public class DoctorMapping : IEntityTypeConfiguration<Doctor>
             .IsRequired();
 
         builder
-            .HasMany(e => e.Schedules)
-            .WithOne(e => e.Doctor)
-            .HasForeignKey(e => e.DoctorId)
+            .HasMany(e => e.Appointments)
+            .WithOne(e => e.Patient)
+            .HasForeignKey(e => e.PatientId)
             .OnDelete(DeleteBehavior.Cascade);
     }
 }

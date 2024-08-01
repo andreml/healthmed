@@ -3,10 +3,8 @@ using HealthMed.Application.Services.Interfaces;
 using HealthMed.Application.ViewModels;
 using HealthMed.Domain.Entities;
 using HealthMed.Domain.Repository;
-using HealthMed.Domain.Utils;
-using Microsoft.Extensions.Configuration;
+using HealthMed.Infra.Email;
 using System.Data;
-using System.Numerics;
 
 namespace HealthMed.Application.Services;
 
@@ -15,20 +13,18 @@ public class AppointmentService : IAppointmentService
     private readonly IAppointmentRepository _appointmentRepository;
     private readonly IPatientRepository _patientRepository;
     private readonly IScheduleRepository _scheduleRepository;
-
-    private readonly IConfiguration _configuration;
+    private readonly IEmailService _emailService;
 
     public AppointmentService(
                 IAppointmentRepository appointmentRepository,
                 IPatientRepository patientRepository,
                 IScheduleRepository scheduleRepository,
-                IConfiguration configuration)
+                IEmailService emailService)
     {
         _appointmentRepository = appointmentRepository;
         _patientRepository = patientRepository;
         _scheduleRepository = scheduleRepository;
-
-        _configuration = configuration;
+        _emailService = emailService;
     }
 
     public async Task<ResponseBase> AddAppointmentAsync(AddAppointmentDto dto)
@@ -70,8 +66,7 @@ public class AppointmentService : IAppointmentService
 
             await _appointmentRepository.AddAsync(appointment);
 
-            var template = Email.FormatarTemplateConfirmacaoConsulta(schedule.Doctor.Name, patient.Name, appointment.StartDate, schedule.Doctor.Email);
-            Email.EnviarEmail(template, _configuration);
+            await _emailService.SendNewAppointmentToDoctor(schedule.Doctor.Email, schedule.Doctor.Name, patient.Name, appointment.StartDate);
 
             response.AddData("Consulta agendada com sucesso!");
             return response;
@@ -96,8 +91,7 @@ public class AppointmentService : IAppointmentService
 
         await _appointmentRepository.RemoveAsync(appointment);
 
-        var template = Email.FormatarTemplateCancelamentoConsulta(appointment.Schedule.Doctor.Email, appointment.Schedule.Doctor.Name, appointment.Patient.Name, appointment.StartDate);
-        Email.EnviarEmail(template, _configuration);
+        await _emailService.SendAppointmentCanceledToDoctor(appointment.Schedule.Doctor.Email, appointment.Schedule.Doctor.Name, appointment.Patient.Name, appointment.StartDate);
 
         response.AddData("Consulta desmarcada com sucesso!");
         return response;

@@ -1,4 +1,4 @@
-﻿using HealthMed.Infra.Context;
+﻿using HealthMed.Infra.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

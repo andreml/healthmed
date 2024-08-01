@@ -1,9 +1,9 @@
 ﻿using HealthMed.Domain.Entities;
 using HealthMed.Domain.Repository;
-using HealthMed.Infra.Context;
+using HealthMed.Infra.Data.Context;
 using Microsoft.EntityFrameworkCore;
 
-namespace HealthMed.Infra.Repository;
+namespace HealthMed.Infra.Data.Repository;
 
 public class ScheduleRepository : IScheduleRepository
 {
@@ -41,10 +41,10 @@ public class ScheduleRepository : IScheduleRepository
                             .ThenInclude(x => x.Patient)
                         .Where(x => x.Doctor.Id == doctorId
                                        && (
-                                            (x.StartAvailabilityDate <= startDate && x.EndAvailabilityDate >= endDate) ||
-                                            (x.StartAvailabilityDate >= startDate && x.EndAvailabilityDate <= endDate) ||
-                                            (x.StartAvailabilityDate >= startDate && x.StartAvailabilityDate < endDate) ||
-                                            (x.EndAvailabilityDate > startDate && x.EndAvailabilityDate <= endDate)
+                                            x.StartAvailabilityDate <= startDate && x.EndAvailabilityDate >= endDate ||
+                                            x.StartAvailabilityDate >= startDate && x.EndAvailabilityDate <= endDate ||
+                                            x.StartAvailabilityDate >= startDate && x.StartAvailabilityDate < endDate ||
+                                            x.EndAvailabilityDate > startDate && x.EndAvailabilityDate <= endDate
                                           )).ToListAsync();
     }
 
