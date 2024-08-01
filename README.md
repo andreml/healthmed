@@ -31,21 +31,30 @@ E para os médicos facilitar o controle das agendas com os seus pacientes.
      Cpf inválido<br/>
      Senha é obrigatória<br/>
      Senha deve conter no mínimo 8 caracteres<br/>
-     Senha deve ter pelo menos uma letra maiúscila, uma minúscula, um número e um caractere especial<br/>
+     Senha deve ter pelo menos uma letra maiúscula, uma minúscula, um número e um caractere especial<br/>
      CRM é obrigatório
      CRM inválido
 
 2. Autenticação do Usuário (Médico)<br/>
     O sistema deve permitir que o médico faça login usando o E-mail e uma Senha.<br/>
-    Obrigatórios: E-mail e Senha.
+    Obrigatórios: E-mail e Senha.<br/>
 
     Mensagens de retorno :<br/>
-     Não foi possível gerar token para acesso do usuário.
+    Não foi possível gerar token para acesso do usuário.<br/>
    
-   
-4. Cadastro/Edição de Horários Disponíveis (Médico)
-O sistema deve permitir que o médico faça o Cadastro e Edição de seus
-horários disponíveis para agendamento de consultas.
+3. Cadastro/Edição de Horários Disponíveis (Médico)<br/>
+    O sistema deve permitir que o médico faça o Cadastro e Edição de seus horários disponíveis para agendamento de consultas.
+
+    Mensagens de retorno :<br/>
+    DoctorId é obrigatório<br/>
+    StartAvailabilityDate é obrigatório<br/>
+    StartAvailabilityDate deve terminar com minutos 00 ou 30<br/>
+    Agendas devem no mínimo um intervalo de 30 minutos<br/>
+    EndAvailabilityDate é obrigatório<br/>
+    EndAvailabilityDate deve terminar com minutos 00 ou 30<br/>
+    Uma agenda deve iniciar e finalizar no mesmo dia<br/>
+    StartAvailabilityDate deve ser menor que EndAvailabilityDate<br/>
+    
 5. Cadastro do Usuário (Paciente)
 O paciente poderá se cadastrar preenchendo os campos: Nome, CPF, Email e Senha.
 6. Autenticação do Usuário (Paciente)
