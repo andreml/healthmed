@@ -17,11 +17,11 @@ E para os médicos facilitar o controle das agendas com os seus pacientes.
 **Diagrama das tabelas:** 
 
 **Requisitos Funcionais**
-1. Cadastro do Usuário (Médico)<br/>
+**1. Cadastro do Usuário (Médico)**<br/>
     O médico deverá poder se cadastrar, preenchendo os campos abaixo<br/>
-    Obrigatórios: Nome, CPF, Número CRM, E-mail e Senha.
+    **Obrigatórios:** Nome, CPF, Número CRM, E-mail e Senha.
 
-    Mensagens de retorno :<br/>
+    **Mensagens de retorno:**<br/>
      Nome é obrigatório<br/>
      Nome deve ter entre 3 e 100 caracteres<br/>
      Email é obrigatório<br/>
@@ -35,17 +35,17 @@ E para os médicos facilitar o controle das agendas com os seus pacientes.
      CRM é obrigatório
      CRM inválido
 
-2. Autenticação do Usuário (Médico)<br/>
+**2. Autenticação do Usuário (Médico)**<br/>
     O sistema deve permitir que o médico faça login usando o E-mail e uma Senha.<br/>
     Obrigatórios: E-mail e Senha.<br/>
 
-    Mensagens de retorno :<br/>
+    **Mensagens de retorno:**<br/>
     Não foi possível gerar token para acesso do usuário.<br/>
    
-3. Cadastro/Edição de Horários Disponíveis (Médico)<br/>
+**3. Cadastro/Edição de Horários Disponíveis (Médico)**<br/>
     O sistema deve permitir que o médico faça o Cadastro e Edição de seus horários disponíveis para agendamento de consultas.
 
-    Mensagens de retorno :<br/>
+    **Mensagens de retorno:**<br/>
     DoctorId é obrigatório<br/>
     StartAvailabilityDate é obrigatório<br/>
     StartAvailabilityDate deve terminar com minutos 00 ou 30<br/>
@@ -55,8 +55,9 @@ E para os médicos facilitar o controle das agendas com os seus pacientes.
     Uma agenda deve iniciar e finalizar no mesmo dia<br/>
     StartAvailabilityDate deve ser menor que EndAvailabilityDate<br/>
     
-5. Cadastro do Usuário (Paciente)
-O paciente poderá se cadastrar preenchendo os campos: Nome, CPF, Email e Senha.
+4. Cadastro do Usuário (Paciente)
+    O paciente poderá se cadastrar preenchendo os campos abaixo
+    Nome, CPF, Email e Senha.
 6. Autenticação do Usuário (Paciente)
 O sistema deve permitir que o paciente faça login usando um E-mail e
 Senha.
