@@ -16,11 +16,13 @@ E para os médicos facilitar o controle das agendas com os seus pacientes.
 
 **Diagrama das tabelas:** 
 
+https://uploaddeimagens.com.br/imagens/hN_x6XQ
+
 **Requisitos Funcionais**
 **1. Cadastro do Usuário (Médico)**<br/>
     O médico deverá poder se cadastrar, preenchendo os campos: Nome, CPF, Número CRM, E-mail e Senha.
 
-    **Mensagens de retorno:**<br/>
+    Mensagens de retorno:<br/>
      Nome é obrigatório<br/>
      Nome deve ter entre 3 e 100 caracteres<br/>
      Email é obrigatório<br/>
@@ -37,13 +39,13 @@ E para os médicos facilitar o controle das agendas com os seus pacientes.
 **2. Autenticação do Usuário (Médico)**<br/>
     O sistema deve permitir que o médico faça login usando o E-mail e uma Senha.<br/>
 
-    **Mensagens de retorno:**<br/>
+    Mensagens de retorno:<br/>
     Não foi possível gerar token para acesso do usuário.<br/>
    
 **3. Cadastro/Edição de Horários Disponíveis (Médico)**<br/>
     O sistema deve permitir que o médico faça o Cadastro e Edição de seus horários disponíveis para agendamento de consultas.
 
-    **Mensagens de retorno:**<br/>
+    Mensagens de retorno:<br/>
     DoctorId é obrigatório<br/>
     StartAvailabilityDate é obrigatório<br/>
     StartAvailabilityDate deve terminar com minutos 00 ou 30<br/>
