@@ -1,4 +1,4 @@
-## Hackatoon Fiap - Arquitetura de Sistemas .NET com Azure
+## Hackathon Fiap - Arquitetura de Sistemas .NET com Azure
 
 A Health&Med, é uma Operadora de Saúde que tem como objetivo facilitar o agendamento de consultas de pacientes de forma online, prática e rápida.
 E para os médicos facilitar o controle das agendas com os seus pacientes.
@@ -10,9 +10,12 @@ E para os médicos facilitar o controle das agendas com os seus pacientes.
 - [@andreml](https://github.com/andreml)
 - [@Daniellyaraujo](https://github.com/Daniellyaraujo)
 
+## Swagger:
+https://healthmedfiap.azurewebsites.net/swagger/index.html
+
 ## Stack utilizada
 
-**Back-end:** .Net 7, EF Core, FluentValidation e XUnit
+**Back-end:** .Net 7, EF Core, SQL Server, FluentValidation para validações de dentrada, XUnit para testes unitários e MimeKit com MailKit para envio de emails.
 
 **Tabelas**
 
@@ -27,7 +30,7 @@ Criamos 4 tabelas para atender os requistos do projeto
 
 <img src="https://uploaddeimagens.com.br/images/004/819/214/full/Sem_t%C3%ADtulo.png?1722544352">
 
-**Requisitos Funcionais**
+## Principais funcionalidades
 
 **1. Cadastro do Usuário (Médico)** <br/>
     O médico deverá poder se cadastrar, preenchendo os campos: Nome, CPF, Número CRM, E-mail e Senha.
@@ -106,7 +109,13 @@ disponíveis.
     O sistema deve ser capaz de suportar múltiplos acessos simultâneos e garantir que apenas uma marcação de consulta seja permitida para um determinado horário.
    
 **2. Validação de Conflito de Horários** <br/>
-O sistema deve validar a disponibilidade do horário selecionado em tempo real, assegurando que não haja sobreposição de horários para consultas agendadas.
+O sistema deve validar a disponibilidade do horário selecionado em tempo real, assegurando que não haja sobreposição de horários para consultas agendadas:
+
+Além das validações antes de salvar um horário, criamos uma índice único para evitar que existam duas consultas com o mesmo horário para uma agenda:
+[AppointmentMapping.cs](src/HealthMed.Infra/Data/Mapping/AppointmentMapping.cs) - linha 33
+
+Dessa forma, temos um tratamento caso haja uma concorrência e acabe tentando inserir um índice duplicado:
+[AppointmentMapping.cs](src/HealthMed.Application/Services/AppointmentService.cs) - linha 76
 
 Para fazer o build desse projeto execute os comandos
 
