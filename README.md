@@ -16,90 +16,90 @@ E para os médicos facilitar o controle das agendas com os seus pacientes.
 
 **Diagrama das tabelas:** 
 
-https://uploaddeimagens.com.br/imagens/hN_x6XQ
+<img src="https://uploaddeimagens.com.br/imagens/hN_x6XQ">
 
 **Requisitos Funcionais**
-**1. Cadastro do Usuário (Médico)**<br/>
+
+**1. Cadastro do Usuário (Médico)** <br/>
     O médico deverá poder se cadastrar, preenchendo os campos: Nome, CPF, Número CRM, E-mail e Senha.
 
-    Mensagens de retorno:<br/>
-     Nome é obrigatório<br/>
-     Nome deve ter entre 3 e 100 caracteres<br/>
-     Email é obrigatório<br/>
-     Email deve ter entre 5 e 500 caracteres<br/>
-     Email inválido<br/>
-     Cpf é obrigatório<br/>
-     Cpf inválido<br/>
-     Senha é obrigatória<br/>
-     Senha deve conter no mínimo 8 caracteres<br/>
-     Senha deve ter pelo menos uma letra maiúscula, uma minúscula, um número e um caractere especial<br/>
+    Mensagens de retorno:
+     Nome é obrigatório
+     Nome deve ter entre 3 e 100 caracteres
+     Email é obrigatório
+     Email deve ter entre 5 e 500 caracteres
+     Email inválido
+     Cpf é obrigatório
+     Cpf inválido
+     Senha é obrigatória
+     Senha deve conter no mínimo 8 caracteres
+     Senha deve ter pelo menos uma letra maiúscula, uma minúscula, um número e um caractere especial
      CRM é obrigatório
      CRM inválido
 
 **2. Autenticação do Usuário (Médico)**<br/>
     O sistema deve permitir que o médico faça login usando o E-mail e uma Senha.<br/>
 
-    Mensagens de retorno:<br/>
-    Não foi possível gerar token para acesso do usuário.<br/>
+    Mensagens de retorno:
+    Não foi possível gerar token para acesso do usuário.
    
-**3. Cadastro/Edição de Horários Disponíveis (Médico)**<br/>
+**3. Cadastro/Edição de Horários Disponíveis (Médico)** <br/>
     O sistema deve permitir que o médico faça o Cadastro e Edição de seus horários disponíveis para agendamento de consultas.
 
-    Mensagens de retorno:<br/>
-    DoctorId é obrigatório<br/>
-    StartAvailabilityDate é obrigatório<br/>
-    StartAvailabilityDate deve terminar com minutos 00 ou 30<br/>
-    Agendas devem no mínimo um intervalo de 30 minutos<br/>
-    EndAvailabilityDate é obrigatório<br/>
-    EndAvailabilityDate deve terminar com minutos 00 ou 30<br/>
-    Uma agenda deve iniciar e finalizar no mesmo dia<br/>
-    StartAvailabilityDate deve ser menor que EndAvailabilityDate<br/>
+    Mensagens de retorno:
+    DoctorId é obrigatório
+    StartAvailabilityDate é obrigatório
+    StartAvailabilityDate deve terminar com minutos 00 ou 30
+    Agendas devem no mínimo um intervalo de 30 minutos
+    EndAvailabilityDate é obrigatório
+    EndAvailabilityDate deve terminar com minutos 00 ou 30
+    Uma agenda deve iniciar e finalizar no mesmo dia
+    StartAvailabilityDate deve ser menor que EndAvailabilityDate
     
-4. Cadastro do Usuário (Paciente)
+**4. Cadastro do Usuário (Paciente)** <br/>
     O paciente poderá se cadastrar preenchendo os campos Nome, CPF, Email e Senha.
     
-5. Autenticação do Usuário (Paciente)
+**5. Autenticação do Usuário (Paciente)** <br/>
     O sistema deve permitir que o paciente faça login usando um E-mail e Senha.
 
-    **Mensagens de retorno:**<br/>
-    Não foi possível gerar token para acesso do usuário.<br/>
+    **Mensagens de retorno:**
+    Não foi possível gerar token para acesso do usuário.
     
-6. Busca por Médicos (Paciente)
+**6. Busca por Médicos (Paciente)** <br/>
 O sistema deve permitir que o paciente visualize a listagem dos médicos
 disponíveis.
 
-7. Agendamento de Consultas (Paciente)<br/>
+**7. Agendamento de Consultas (Paciente)** <br/>
     Após selecionar o médico, o paciente deve poder visualizar a agenda do médico com os horários disponíveis e efetuar o agendamento.
-    ScheduleId é obrigatório<br/>
-    StartDate é obrigatório<br/>
-    São permitidos apenas horários com final 00min e 30min<br/>
-    EndDate é obrigatório<br/>
-    São permitidos apenas horários com final 00min e 30min<br/>
-    StartDate deve ser menor que EndDate<br/>
+   
+    ScheduleId é obrigatório
+    StartDate é obrigatório
+    São permitidos apenas horários com final 00min e 30min
+    EndDate é obrigatório
+    São permitidos apenas horários com final 00min e 30min
+    StartDate deve ser menor que EndDate
     Consultas devem ter 30 minutos de intervalo
 
-8. Notificação de consulta marcada (Médico)
-Após o agendamento, feito pelo usuário Paciente, o médico deverá receber um e-mail contendo:
-Título do e-mail:
-”Health&Med - Nova consulta agendada”
-Corpo do e-mail:
-”Olá, Dr. {nome_do_médico}!
-Você tem uma nova consulta marcada!
-Paciente: {nome_do_paciente}.
-Data e horário: {data} às {horário_agendado}.
-
-Requisitos Não Funcionais
-1. Concorrência de Agendamentos
-    O sistema deve ser capaz de suportar múltiplos acessos simultâneos e
-    garantir que apenas uma marcação de consulta seja permitida para um
-    determinado horário.
+**9. Notificação de consulta marcada (Médico)** <br/>
+    Após o agendamento, feito pelo usuário Paciente, o médico deverá receber um e-mail contendo:
    
-2. Validação de Conflito de Horários
-O sistema deve validar a disponibilidade do horário selecionado em tempo
-real, assegurando que não haja sobreposição de horários para consultas
-agendadas.
+        Título do e-mail:
+        ”Health&Med - Nova consulta agendada”
+        Corpo do e-mail:
+        ”Olá, Dr. {nome_do_médico}!
+        Você tem uma nova consulta marcada!
+        Paciente: {nome_do_paciente}.
+        Data e horário: {data} às {horário_agendado}.
 
-Para fazer o build desse projeto rode
+**Requisitos Não Funcionais**
+
+**1. Concorrência de Agendamentos** <br/>
+    O sistema deve ser capaz de suportar múltiplos acessos simultâneos e garantir que apenas uma marcação de consulta seja permitida para um determinado horário.
+   
+**2. Validação de Conflito de Horários** <br/>
+O sistema deve validar a disponibilidade do horário selecionado em tempo real, assegurando que não haja sobreposição de horários para consultas agendadas.
+
+Para fazer o build desse projeto execute os comandos
 
 ```bash
   dotnet restore
