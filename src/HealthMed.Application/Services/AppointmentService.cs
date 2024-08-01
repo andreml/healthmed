@@ -70,7 +70,6 @@ public class AppointmentService : IAppointmentService
 
             await _appointmentRepository.AddAsync(appointment);
 
-            //TODO: enviar email avisando o agendamento
             var template = Email.FormatarTemplateConfirmacaoConsulta(schedule.Doctor.Name, patient.Name, appointment.StartDate, schedule.Doctor.Email);
             Email.EnviarEmail(template, _configuration);
 
@@ -97,11 +96,8 @@ public class AppointmentService : IAppointmentService
 
         await _appointmentRepository.RemoveAsync(appointment);
 
-        //TODO: enviar email avisando o cancelamento pelo paciente
-        //appointment.Schedule.Doctor.Email
-        //appointment.Patient.Name
-        //appointment.StartDate
-        //appointment.EndDate
+        var template = Email.FormatarTemplateCancelamentoConsulta(appointment.Schedule.Doctor.Email, appointment.Schedule.Doctor.Name, appointment.Patient.Name, appointment.StartDate);
+        Email.EnviarEmail(template, _configuration);
 
         response.AddData("Consulta desmarcada com sucesso!");
         return response;
