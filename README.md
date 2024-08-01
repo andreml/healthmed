@@ -14,12 +14,14 @@ E para os médicos facilitar o controle das agendas com os seus pacientes.
 
 **Back-end:** .Net 7, EF Core, FluentValidation e XUnit
 
+**Diagrama das tabelas:** 
+
 **Requisitos Funcionais**
 1. Cadastro do Usuário (Médico)<br/>
     O médico deverá poder se cadastrar, preenchendo os campos abaixo<br/>
     Obrigatórios: Nome, CPF, Número CRM, E-mail e Senha.
 
-   Mensagens de retorno:<br/>
+    Mensagens de retorno :<br/>
      Nome é obrigatório<br/>
      Nome deve ter entre 3 e 100 caracteres<br/>
      Email é obrigatório<br/>
@@ -33,10 +35,14 @@ E para os médicos facilitar o controle das agendas com os seus pacientes.
      CRM é obrigatório
      CRM inválido
 
-3. Autenticação do Usuário (Médico)
-Hackathon - Turma .NET 2
-O sistema deve permitir que o médico faça login usando o E-mail e uma
-Senha.
+2. Autenticação do Usuário (Médico)<br/>
+    O sistema deve permitir que o médico faça login usando o E-mail e uma Senha.<br/>
+    Obrigatórios: E-mail e Senha.
+
+    Mensagens de retorno :<br/>
+     Não foi possível gerar token para acesso do usuário.
+   
+   
 4. Cadastro/Edição de Horários Disponíveis (Médico)
 O sistema deve permitir que o médico faça o Cadastro e Edição de seus
 horários disponíveis para agendamento de consultas.
