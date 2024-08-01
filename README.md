@@ -14,9 +14,18 @@ E para os médicos facilitar o controle das agendas com os seus pacientes.
 
 **Back-end:** .Net 7, EF Core, FluentValidation e XUnit
 
+**Tabelas**
+
+Criamos 4 tabelas para atender os requistos do projeto
+
+**Doctor:** Tabela com os dados do médico
+**Patient:** Tabela com os dados do paciente
+**Appontment:** Tabela das consultas agendadas do paciente
+**Schedule:** Tabela da agenda de atendimento do Médico
+
 **Diagrama das tabelas:** 
 
-<img src="https://uploaddeimagens.com.br/imagens/hN_x6XQ">
+<img src="https://uploaddeimagens.com.br/images/004/819/214/full/Sem_t%C3%ADtulo.png?1722544352">
 
 **Requisitos Funcionais**
 
