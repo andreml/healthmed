@@ -196,3 +196,189 @@ O teste result ficará salvo na pasta abaixo
 ```bash
   cd .\test\HealthMed.IntegrationTests\TestResults\
 ```
+
+
+## Exemplos válidos para executar as rotas
+
+Os exemplos abaixo estão considerando como domínio rotas em localhost, para execução local. Em outras publicações é necessário fazer ajuste da rota
+
+**POST - /Patient **
+
+Cria uma conta de paciente. Exemplo:
+
+```
+curl -X 'POST' \
+  'https://localhost:7163/Patient' \
+  -H 'accept: */*' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "name": "Jonas Lira",
+  "cpf": "56061446039",
+  "email": "mecawa4964@mfunza.com",
+  "password": "Test&123"
+}'
+```
+
+**POST - /Patient/Auth**
+
+Autentica um paciente. Exemplo:
+
+```
+curl -X 'POST' \
+  'https://localhost:7163/Patient/Auth' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+ "email": "mecawa4964@mfunza.com",
+  "password": "Test&123"
+}'
+```
+
+**POST - /Schedule**
+
+Disponibiliza uma agenda (médico). Exemplo:
+
+```
+curl -X 'POST' \
+  'https://localhost:7163/Schedule' \
+  -H 'accept: */*' \
+  -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiRG9jdG9yIiwiSWQiOiJhNmJkNTVjOS04MGZmLTQ4ZGEtYjI2Zi0wOGRjYjI4ZDExZTIiLCJuYmYiOjE3MjI1NTk4OTEsImV4cCI6MTcyMzE2NDY5MSwiaWF0IjoxNzIyNTU5ODkxfQ.KQr-Zt5xJdbJOJNsH81XttwzaEIKt54o4NWw0aDWj8I' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "startAvailabilityDate": "2024-08-02T08:00",
+  "endAvailabilityDate": "2024-08-02T08:30"
+}'
+```
+
+**PUT - /Schedule**
+
+Altera uma agenda (médico). Exemplo:
+
+```
+curl -X 'PUT' \
+  'https://localhost:7163/Schedule' \
+  -H 'accept: */*' \
+  -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiRG9jdG9yIiwiSWQiOiJhNmJkNTVjOS04MGZmLTQ4ZGEtYjI2Zi0wOGRjYjI4ZDExZTIiLCJuYmYiOjE3MjI1NTk4OTEsImV4cCI6MTcyMzE2NDY5MSwiaWF0IjoxNzIyNTU5ODkxfQ.KQr-Zt5xJdbJOJNsH81XttwzaEIKt54o4NWw0aDWj8I' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "scheduleId": "1E78226C-27DF-4D6F-9A00-08DCB28E2F43",
+  "startAvailabilityDate": "2024-08-02T09:00",
+  "endAvailabilityDate": "2024-08-02T09:30"
+}'
+```
+
+**DELETE - /Schedule/{Id}**
+
+Remove uma agenda (médico). Exemplo:
+
+```
+curl -X 'DELETE' \
+  'https://localhost:7163/Schedule/1E78226C-27DF-4D6F-9A00-08DCB28E2F43' \
+  -H 'accept: */*' \
+  -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiRG9jdG9yIiwiSWQiOiJhNmJkNTVjOS04MGZmLTQ4ZGEtYjI2Zi0wOGRjYjI4ZDExZTIiLCJuYmYiOjE3MjI1NTk4OTEsImV4cCI6MTcyMzE2NDY5MSwiaWF0IjoxNzIyNTU5ODkxfQ.KQr-Zt5xJdbJOJNsH81XttwzaEIKt54o4NWw0aDWj8I'
+```
+
+**GET - /Schedule/Doctor/{id}/Available**
+
+Obtém agendas livres de um Médico (Paciente). Exemplo:
+
+```
+curl -X 'GET' \
+  'https://localhost:7163/Schedule/Doctor/A6BD55C9-80FF-48DA-B26F-08DCB28D11E2/Available?startDate=2024-08-02&endDate=2024-08-02' \
+  -H 'accept: application/json' \
+  -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiUGF0aWVudCIsIklkIjoiMjJkN2NlZDUtZDU0MS00OTM2LTNiNmItMDhkY2IyOGNiZjQyIiwibmJmIjoxNzIyNTU5NzEyLCJleHAiOjE3MjMxNjQ1MTIsImlhdCI6MTcyMjU1OTcxMn0.hPnFScmDhiVBT_WAXPYiC3JyEg1TFXjNDFg3c3dukEI'
+```
+
+**GET - /Schedule/Doctor**
+
+Obtém detalhes de agendas de um Médico (Médico). Exemplo:
+
+```
+curl -X 'GET' \
+  'https://localhost:7163/Schedule/Doctor?startDate=2024-08-02T09%3A30&endDate=2024-08-02T09%3A30' \
+  -H 'accept: application/json' \
+  -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiRG9jdG9yIiwiSWQiOiJhNmJkNTVjOS04MGZmLTQ4ZGEtYjI2Zi0wOGRjYjI4ZDExZTIiLCJuYmYiOjE3MjI1NTk4OTEsImV4cCI6MTcyMzE2NDY5MSwiaWF0IjoxNzIyNTU5ODkxfQ.KQr-Zt5xJdbJOJNsH81XttwzaEIKt54o4NWw0aDWj8I'
+```
+
+**POST - /Doctor**
+
+Cria uma conta de médico. Exemplo:
+
+```
+curl -X 'POST' \
+  'https://localhost:7163/Doctor' \
+  -H 'accept: */*' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "name": "Jonas Lira",
+  "cpf": "97037344052",
+  "email": "mecawa4965@mfunza.com",
+  "password": "Test&123",
+  "crm": "1231234123"
+}'
+```
+
+**GET - /Doctor**
+
+Consulta uma lista de médicos. Exemplo:
+
+```
+curl -X 'GET' \
+  'https://localhost:7163/Doctor' \
+  -H 'accept: application/json' \
+  -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiUGF0aWVudCIsIklkIjoiMjJkN2NlZDUtZDU0MS00OTM2LTNiNmItMDhkY2IyOGNiZjQyIiwibmJmIjoxNzIyNTU5NzEyLCJleHAiOjE3MjMxNjQ1MTIsImlhdCI6MTcyMjU1OTcxMn0.hPnFScmDhiVBT_WAXPYiC3JyEg1TFXjNDFg3c3dukEI'
+```
+
+**POST - /Doctor/Auth**
+
+Request exemplo:
+
+```
+curl -X 'POST' \
+  'https://localhost:7163/Doctor/Auth' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "email": "mecawa4965@mfunza.com",
+  "password": "Test&123"
+}'
+```
+
+**POST - /Appointment**
+
+Marca uma consulta (paciente). Exemplo:
+
+```
+curl -X 'POST' \
+  'https://localhost:7163/Appointment' \
+  -H 'accept: */*' \
+  -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiUGF0aWVudCIsIklkIjoiMjJkN2NlZDUtZDU0MS00OTM2LTNiNmItMDhkY2IyOGNiZjQyIiwibmJmIjoxNzIyNTU5NzEyLCJleHAiOjE3MjMxNjQ1MTIsImlhdCI6MTcyMjU1OTcxMn0.hPnFScmDhiVBT_WAXPYiC3JyEg1TFXjNDFg3c3dukEI' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "scheduleId": "1E78226C-27DF-4D6F-9A00-08DCB28E2F43",
+  "startDate": "2024-08-02T09:00",
+  "endDate": "2024-08-02T09:30"
+}'
+```
+
+**DELETE - /Appointment/{id}**
+
+Desmarca uma consulta (paciente). Exemplo:
+
+```
+curl -X 'DELETE' \
+  'https://localhost:7163/Appointment/627B6848-0FA4-4689-46A9-08DCB28F2F58' \
+  -H 'accept: */*' \
+  -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiUGF0aWVudCIsIklkIjoiMjJkN2NlZDUtZDU0MS00OTM2LTNiNmItMDhkY2IyOGNiZjQyIiwibmJmIjoxNzIyNTU5NzEyLCJleHAiOjE3MjMxNjQ1MTIsImlhdCI6MTcyMjU1OTcxMn0.hPnFScmDhiVBT_WAXPYiC3JyEg1TFXjNDFg3c3dukEI'
+```
+
+**GET - /Appointment/Patient**
+
+Obtem consultas marcadas (paciente). Exemplo:
+
+```
+curl -X 'GET' \
+  'https://localhost:7163/Appointment/Patient?startDate=2024-08-02T00%3A00&endDate=2024-08-03T00%3A00' \
+  -H 'accept: application/json' \
+  -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiUGF0aWVudCIsIklkIjoiMjJkN2NlZDUtZDU0MS00OTM2LTNiNmItMDhkY2IyOGNiZjQyIiwibmJmIjoxNzIyNTU5NzEyLCJleHAiOjE3MjMxNjQ1MTIsImlhdCI6MTcyMjU1OTcxMn0.hPnFScmDhiVBT_WAXPYiC3JyEg1TFXjNDFg3c3dukEI'
+  ```
