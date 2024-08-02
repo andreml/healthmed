@@ -202,7 +202,7 @@ O teste result ficará salvo na pasta abaixo
 
 Os exemplos abaixo estão considerando como domínio rotas em localhost, para execução local. Em outras publicações é necessário fazer ajuste da rota
 
-**POST - /Patient **
+**POST - /Patient**
 
 Cria uma conta de paciente. Exemplo:
 
