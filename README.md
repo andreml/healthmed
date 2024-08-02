@@ -369,3 +369,546 @@ O teste result ficará salvo na pasta abaixo
 ```bash
   cd .\test\HealthMed.IntegrationTests\TestResults\
 ```
+
+## COLLECTION POSTMAN
+
+
+{
+	"info": {
+		"_postman_id": "004970cf-9621-478e-a4fe-cca54846b506",
+		"name": "Health & Med",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "11189715"
+	},
+	"item": [
+		{
+			"name": "Paciente",
+			"item": [
+				{
+					"name": "Cadastro do Usuário (Paciente)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Woody Woodpecker\",\r\n    \"cpf\": \"03609924047\",\r\n    \"email\": \"woodywoodpecker@gmail.com\",\r\n    \"password\": \"Test&123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL_HEALTH}}/Patient",
+							"host": [
+								"{{URL_HEALTH}}"
+							],
+							"path": [
+								"Patient"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Autenticação do Usuário (Paciente)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.globals.set(\"TOKEN_PATIENT\", pm.response.json().token)"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n \"email\": \"woodywoodpecker@gmail.com\",\r\n  \"password\": \"Test&123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL_HEALTH}}/Patient/Auth",
+							"host": [
+								"{{URL_HEALTH}}"
+							],
+							"path": [
+								"Patient",
+								"Auth"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Médico",
+			"item": [
+				{
+					"name": "Cadastro do Usuário (Médico)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Hans Chucrutes\",\r\n  \"cpf\": \"64440592082\",\r\n  \"email\": \"wirow14358@mvpalace.com\",\r\n  \"password\": \"Test&123\",\r\n  \"crm\": \"644405\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL_HEALTH}}/Doctor",
+							"host": [
+								"{{URL_HEALTH}}"
+							],
+							"path": [
+								"Doctor"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Autenticação do Usuário (Médico)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.globals.set(\"TOKEN_DOCTOR\", pm.response.json().token)"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"wirow14358@mvpalace.com\",\r\n  \"password\": \"Test&123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL_HEALTH}}/Doctor/Auth",
+							"host": [
+								"{{URL_HEALTH}}"
+							],
+							"path": [
+								"Doctor",
+								"Auth"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Busca por Médicos (Paciente)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN_PATIENT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL_HEALTH}}/Doctor",
+							"host": [
+								"{{URL_HEALTH}}"
+							],
+							"path": [
+								"Doctor"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Agenda",
+			"item": [
+				{
+					"name": "Disponbiliza uma agenda (Médico)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN_DOCTOR}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"startAvailabilityDate\": \"2024-08-03T08:00\",\r\n    \"endAvailabilityDate\": \"2024-08-03T12:30\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL_HEALTH}}/Schedule",
+							"host": [
+								"{{URL_HEALTH}}"
+							],
+							"path": [
+								"Schedule"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtém detalhes de agendas de um Médico (Médico)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN_DOCTOR}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL_HEALTH}}/Schedule/Doctor?startDate=2024-08-03T06%3A00&endDate=2024-08-04T22%3A00",
+							"host": [
+								"{{URL_HEALTH}}"
+							],
+							"path": [
+								"Schedule",
+								"Doctor"
+							],
+							"query": [
+								{
+									"key": "startDate",
+									"value": "2024-08-03T06%3A00"
+								},
+								{
+									"key": "endDate",
+									"value": "2024-08-04T22%3A00"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtém agendas livres de um Médico (Paciente)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN_PATIENT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL_HEALTH}}/Schedule/Doctor/559914b3-d422-49b4-06b8-08dcb34a68a7/Available?startDate=2024-08-02T06%3A00&endDate=2024-08-05T22%3A00",
+							"host": [
+								"{{URL_HEALTH}}"
+							],
+							"path": [
+								"Schedule",
+								"Doctor",
+								"559914b3-d422-49b4-06b8-08dcb34a68a7",
+								"Available"
+							],
+							"query": [
+								{
+									"key": "startDate",
+									"value": "2024-08-02T06%3A00"
+								},
+								{
+									"key": "endDate",
+									"value": "2024-08-05T22%3A00"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Altera uma agenda do médico",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN_DOCTOR}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"scheduleId\": \"cebc65cb-1188-401a-cf9f-08dcb33d7dee\",\r\n    \"startAvailabilityDate\": \"2024-08-03T22:00\",\r\n    \"endAvailabilityDate\": \"2024-08-03T22:30\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL_HEALTH}}/Schedule",
+							"host": [
+								"{{URL_HEALTH}}"
+							],
+							"path": [
+								"Schedule"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove uma agenda (Médico)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN_DOCTOR}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URL_HEALTH}}/Schedule/693d87c2-907d-4ebe-3d63-08dcb34a7fd8",
+							"host": [
+								"{{URL_HEALTH}}"
+							],
+							"path": [
+								"Schedule",
+								"693d87c2-907d-4ebe-3d63-08dcb34a7fd8"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Consultas",
+			"item": [
+				{
+					"name": "Agendamento de Consultas (Paciente)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN_PATIENT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"scheduleId\": \"693d87c2-907d-4ebe-3d63-08dcb34a7fd8\",\r\n    \"startDate\": \"2024-08-03T09:00\",\r\n    \"endDate\": \"2024-08-03T09:30\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL_HEALTH}}/Appointment",
+							"host": [
+								"{{URL_HEALTH}}"
+							],
+							"path": [
+								"Appointment"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtém consultas marcadas (Paciente)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN_PATIENT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL_HEALTH}}/Appointment/Patient?startDate=2024-08-03T06%3A00&endDate=2024-08-03T18%3A00",
+							"host": [
+								"{{URL_HEALTH}}"
+							],
+							"path": [
+								"Appointment",
+								"Patient"
+							],
+							"query": [
+								{
+									"key": "startDate",
+									"value": "2024-08-03T06%3A00"
+								},
+								{
+									"key": "endDate",
+									"value": "2024-08-03T18%3A00"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Marca uma consulta (Paciente)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN_PATIENT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"scheduleId\": \"693d87c2-907d-4ebe-3d63-08dcb34a7fd8\",\r\n  \"startDate\": \"2024-08-02T09:00\",\r\n  \"endDate\": \"2024-08-02T09:30\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL_HEALTH}}/Appointment/8ae23b8f-90f6-4f35-cf9b-08dcb33d7dee",
+							"host": [
+								"{{URL_HEALTH}}"
+							],
+							"path": [
+								"Appointment",
+								"8ae23b8f-90f6-4f35-cf9b-08dcb33d7dee"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "URL_HEALTH",
+			"value": "https://healthmedfiap.azurewebsites.net",
+			"type": "string"
+		}
+	]
+}
