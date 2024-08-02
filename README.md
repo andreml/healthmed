@@ -15,7 +15,7 @@ https://healthmedfiap.azurewebsites.net/swagger/index.html
 
 ## Stack utilizada
 
-**Back-end:** .Net 7, EF Core, SQL Server, FluentValidation para validações de dentrada, XUnit para testes unitários e MimeKit com MailKit para envio de emails.
+**Back-end:** .Net 7, EF Core, SQL Server, FluentValidation para validações de entrada, XUnit para testes unitários e MimeKit com MailKit para envio de emails.
 
 **Tabelas**
 
@@ -29,6 +29,10 @@ Criamos 4 tabelas para atender os requistos do projeto
 **Diagrama das tabelas:** 
 
 <img src="https://uploaddeimagens.com.br/images/004/819/214/full/Sem_t%C3%ADtulo.png?1722544352">
+
+**Arquitetura do sistema**
+
+<img src="https://uploaddeimagens.com.br/images/004/819/343/full/arquitetura-draw.jpg?1722557130">
 
 ## Principais funcionalidades
 
