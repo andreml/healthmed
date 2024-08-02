@@ -36,7 +36,7 @@ Nossa arquitetura está toda em nuvem, disponibilizamos a api no Web App e no AK
 
 O envio de email aproveitamos o SMTP da Microsoft com o Office365.
 
-<img src="https://uploaddeimagens.com.br/images/004/819/343/full/arquitetura-draw.jpg?1722557130">
+<img src="https://uploaddeimagens.com.br/images/004/819/348/full/arquitetura-draw_%281%29.jpg?1722557939">
 
 ## Principais funcionalidades
 
