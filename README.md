@@ -11,7 +11,8 @@ E para os médicos facilitar o controle das agendas com os seus pacientes.
 - [@Daniellyaraujo](https://github.com/Daniellyaraujo)
 
 ## Swagger:
-https://healthmedfiap.azurewebsites.net/swagger/index.html
+Web App: https://healthmedfiap.azurewebsites.net/swagger/index.html
+AKS: http://135.237.22.73/swagger/index.html
 
 ## Stack utilizada
 
@@ -67,14 +68,14 @@ O envio de email aproveitamos o SMTP da Microsoft com o Office365.
     O sistema deve permitir que o médico faça o Cadastro e Edição de seus horários disponíveis para agendamento de consultas.
 
     Mensagens de retorno:
-    DoctorId é obrigatório
-    StartAvailabilityDate é obrigatório
-    StartAvailabilityDate deve terminar com minutos 00 ou 30
+    Código é obrigatório
+    Hora início é obrigatório
+    Hora início deve terminar com minutos 00 ou 30
     Agendas devem no mínimo um intervalo de 30 minutos
-    EndAvailabilityDate é obrigatório
-    EndAvailabilityDate deve terminar com minutos 00 ou 30
+    Hora fim é obrigatório
+    Hora deve terminar com minutos 00 ou 30
     Uma agenda deve iniciar e finalizar no mesmo dia
-    StartAvailabilityDate deve ser menor que EndAvailabilityDate
+    Data início deve ser menor que Data fim
     
 **4. Cadastro do Usuário (Paciente)** <br/>
     O paciente poderá se cadastrar preenchendo os campos Nome, CPF, Email e Senha.
@@ -92,12 +93,12 @@ disponíveis.
 **7. Agendamento de Consultas (Paciente)** <br/>
     Após selecionar o médico, o paciente deve poder visualizar a agenda do médico com os horários disponíveis e efetuar o agendamento.
    
-    ScheduleId é obrigatório
-    StartDate é obrigatório
+    Código é obrigatório
+    Data início é obrigatório
     São permitidos apenas horários com final 00min e 30min
-    EndDate é obrigatório
+    Data fim é obrigatório
     São permitidos apenas horários com final 00min e 30min
-    StartDate deve ser menor que EndDate
+    Data início deve ser menor que Data fim
     Consultas devem ter 30 minutos de intervalo
 
 **9. Notificação de consulta marcada (Médico)** <br/>
