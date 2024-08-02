@@ -11,8 +11,8 @@ E para os médicos facilitar o controle das agendas com os seus pacientes.
 - [@Daniellyaraujo](https://github.com/Daniellyaraujo)
 
 ## Swagger:
-Web App: https://healthmedfiap.azurewebsites.net/swagger/index.html
-AKS: http://135.237.22.73/swagger/index.html
+**Web App:** https://healthmedfiap.azurewebsites.net/swagger/index.html <br/>
+**AKS:** http://135.237.22.73/swagger/index.html
 
 ## Stack utilizada
 
