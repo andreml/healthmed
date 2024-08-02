@@ -5,10 +5,10 @@ E para os médicos facilitar o controle das agendas com os seus pacientes.
 
 ## Autores
 
-- [@guilhermeTaira](https://github.com/guilhermeTaira)
-- [@lirajon1988](https://github.com/lirajon1988)
-- [@andreml](https://github.com/andreml)
-- [@Daniellyaraujo](https://github.com/Daniellyaraujo)
+Andre Muniz de Lima - [@andreml](https://github.com/andreml) <br/>
+Danielly de Mello Araujo - [@Daniellyaraujo](https://github.com/Daniellyaraujo) <br/>
+Guilherme Salvioni Taira - [@guilhermeTaira](https://github.com/guilhermeTaira) <br/>
+Jonas Felipe Lira da Silva - [@lirajon1988](https://github.com/lirajon1988) <br/>
 
 ## Swagger:
 **Web App:** https://healthmedfiap.azurewebsites.net/swagger/index.html <br/>
