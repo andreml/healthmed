@@ -18,7 +18,7 @@ public class AddAppointmentDtoValidator : AbstractValidator<AddAppointmentDto>
     public AddAppointmentDtoValidator()
     {
         RuleFor(x => x.ScheduleId)
-            .NotEmpty().WithMessage("Código é obrigatório");
+            .NotEmpty().WithMessage("Id da agenda é obrigatório");
 
         RuleFor(x => x.StartDate)
             .NotEmpty().WithMessage("Data início é obrigatório")
