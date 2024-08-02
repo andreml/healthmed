@@ -32,6 +32,10 @@ Criamos 4 tabelas para atender os requistos do projeto
 
 **Arquitetura do sistema**
 
+Nossa arquitetura está toda em nuvem, disponibilizamos a api no Web App e no AKS do Azure, criamos uma banco de dados também no Azure.
+
+O envio de email aproveitamos o SMTP da Microsoft com o Office365.
+
 <img src="https://uploaddeimagens.com.br/images/004/819/343/full/arquitetura-draw.jpg?1722557130">
 
 ## Principais funcionalidades
